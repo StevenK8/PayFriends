@@ -13379,7 +13379,7 @@ button#newEvent {
     padding: 1rem 1rem !important;
 }
 
-a.websiteName {
+a#websiteName {
   color: #9a55ff !important;
   font-size: 1.5rem;
   line-height: 48px;
