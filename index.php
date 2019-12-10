@@ -31,7 +31,7 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" id="websiteName">PayFriends</a>
+          <a class="navbar-brand brand-logo" id="websiteName" href="index.php">PayFriends</a>
         <!--  <a class="navbar-brand brand-logo" href="index.php"><img src="assets/images/logo.svg" alt="logo" /></a> -->
           <a class="navbar-brand brand-logo-mini" href="index.php"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
@@ -169,7 +169,9 @@
               <span class="nav-link">
                 <div class="border-bottom">
                 </div>
-                <button class="btn btn-block btn-lg btn-gradient-primary mt-4" id="newEvent">+ Nouvel événement</button>
+                <a class="nav-link" href="pages/forms/newevent.php">
+                  <button class="btn btn-block btn-lg btn-gradient-primary mt-4" id="newEvent">+ Nouvel événement</button>
+                </a>
               </span>
             </li>
           </ul>
