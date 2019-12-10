@@ -13375,4 +13375,8 @@ dl {
   -ms-flex-positive: 1;
   flex-grow: 1; }
 
+button#newEvent {
+    padding: 1rem 1rem !important;
+}
+
 /*# sourceMappingURL=style.css.map */
