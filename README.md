@@ -40,7 +40,7 @@ Purple Admin is released under MIT license. Purple Admin is a free Bootstrap 4 a
 
 3 - You can install all the dependencies in the template by running the command npm install. All the required files are in the node modules.
 
-4 - Find the file named index.html, check what all components you need. Open the file in a text editor and you can start editing.
+4 - Find the file named index.php, check what all components you need. Open the file in a text editor and you can start editing.
 
 5 - Now that your project has now kick-started, all you need to do now is to code, code, and code to your heart's content.
 
