@@ -161,57 +161,29 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Form elements </h3>
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Forms</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Form elements</li>
-                </ol>
-              </nav>
+              <h3 class="page-title"> Nouvel évènement  </h3>
             </div>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Horizontal Form</h4>
-                    <p class="card-description"> Horizontal form layout </p>
+                    <h4 class="card-title">Formulaire</h4>
+                    <p class="card-description"> Veuillez remplir ces champs </p>
                     <form class="forms-sample">
                       <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Email</label>
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Titre</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Username">
+                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Desc</label>
                         <div class="col-sm-9">
-                          <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email">
+                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="description">
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
-                        <div class="col-sm-9">
-                          <input type="password" class="form-control" id="exampleInputConfirmPassword2" placeholder="Password">
-                        </div>
-                      </div>
-                      <div class="form-check form-check-flat form-check-primary">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input"> Remember me </label>
-                      </div>
-                      <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
-                      <button class="btn btn-light">Cancel</button>
+                      <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
+                      <button class="btn btn-light">Annuler</button>
                     </form>
                   </div>
                 </div>
@@ -219,201 +191,60 @@
               <div class="col-md-6 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Basic input groups</h4>
-                    <p class="card-description"> Basic bootstrap input groups </p>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">@</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text bg-gradient-primary text-white">$</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                        <div class="input-group-append">
-                          <span class="input-group-text">.00</span>
+                    <h4 class="card-title">Tableau participants</h4>
+                    <p class="card-description"> Liste des participants </p>
+                    <form class="forms-sample">
+                      <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Titre</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre">
                         </div>
                       </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">$</span>
-                        </div>
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">0.00</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                          <button class="btn btn-sm btn-gradient-primary" type="button">Search</button>
+                      <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Desc</label>
+                        <div class="col-sm-9">
+                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="description">
                         </div>
                       </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <div role="separator" class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Separated link</a>
-                          </div>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Find in facebook" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                          <button class="btn btn-sm btn-facebook" type="button">
-                            <i class="mdi mdi-facebook"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Checkbox Controls</h4>
-                    <p class="card-description">Checkbox and radio controls (default appearance is in primary color)</p>
-                    <form>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input"> Default </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Checked </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" disabled> Disabled </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" disabled checked> Disabled checked </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value=""> Default </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="option2" checked> Selected </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadios2" id="optionsRadios3" value="option3" disabled> Disabled </label>
-                            </div>
-                            <div class="form-check">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optionsRadio2" id="optionsRadios4" value="option4" disabled checked> Selected and disabled </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <button type="submit" class="btn btn-gradient-primary mr-2">Ajouter</button>
                     </form>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-description">Add class <code>.form-check-{color}</code> for checkbox and radio controls in theme colors</p>
-                    <form>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <div class="form-check form-check-primary">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Primary </label>
-                            </div>
-                            <div class="form-check form-check-success">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Success </label>
-                            </div>
-                            <div class="form-check form-check-info">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Info </label>
-                            </div>
-                            <div class="form-check form-check-danger">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Danger </label>
-                            </div>
-                            <div class="form-check form-check-warning">
-                              <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked> Warning </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <div class="form-check form-check-primary">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="ExampleRadio1" id="ExampleRadio1" checked> Primary </label>
-                            </div>
-                            <div class="form-check form-check-success">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="ExampleRadio2" id="ExampleRadio2" checked> Success </label>
-                            </div>
-                            <div class="form-check form-check-info">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="ExampleRadio3" id="ExampleRadio3" checked> Info </label>
-                            </div>
-                            <div class="form-check form-check-danger">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="ExampleRadio4" id="ExampleRadio4" checked> Danger </label>
-                            </div>
-                            <div class="form-check form-check-warning">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="ExampleRadio5" id="ExampleRadio5" checked> Warning </label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Inline forms</h4>
-                    <p class="card-description"> Use the <code>.form-inline</code> class to display a series of labels, form controls, and buttons on a single horizontal row </p>
-                    <form class="form-inline">
-                      <label class="sr-only" for="inlineFormInputName2">Name</label>
-                      <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Jane Doe">
-                      <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-                      <div class="input-group mb-2 mr-sm-2">
-                        <div class="input-group-prepend">
-                          <div class="input-group-text">@</div>
-                        </div>
-                        <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-                      </div>
-                      <div class="form-check mx-sm-2">
-                        <label class="form-check-label">
-                          <input type="checkbox" class="form-check-input" checked> Remember me </label>
-                      </div>
-                      <button type="submit" class="btn btn-gradient-primary mb-2">Submit</button>
+                    <form class="forms-sample">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Nom</th>
+                            <th>Prenom</th>
+                            <th>Situation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Jacob</td>
+                            <td>53275531</td>
+                            <td><label class="badge badge-danger">Nope</label></td>
+                          </tr>
+                          <tr>
+                            <td>Messsy</td>
+                            <td>53275532</td>
+                            <td><label class="badge badge-warning">En cours</label></td>
+                          </tr>
+                          <tr>
+                            <td>John</td>
+                            <td>53275533</td>
+                            <td><label class="badge badge-success">Ajouté</label></td>
+                          </tr>
+                          <tr>
+                            <td>Peter</td>
+                            <td>53275534</td>
+                            <td><label class="badge badge-success">Ajouté</label></td>
+                          </tr>
+                          <tr>
+                            <td>Dave</td>
+                            <td>53275535</td>
+                            <td><label class="badge badge-warning">En cours</label></td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </form>
                   </div>
                 </div>
@@ -424,7 +255,8 @@
           <!-- partial:../../partials/_footer.html -->
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2017 <a href="https://www.bootstrapdash.com/" target="_blank">BootstrapDash</a>. All rights reserved.</span>
+
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Projet Developpement Web 2019 -  <a href="http://www.polytech.u-psud.fr/fr/index.html" target="_blank">Polytech Paris-Sud</a></span>
               <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
             </div>
           </footer>
