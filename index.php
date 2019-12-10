@@ -268,14 +268,6 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="row" id="proBanner">
-              <div class="col-12">
-                <span class="d-flex align-items-center purchase-popup">
-                 
-                  <i class="mdi mdi-close" id="bannerClose"></i>
-                </span>
-              </div>
-            </div>
             <div class="page-header">
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white mr-2">
