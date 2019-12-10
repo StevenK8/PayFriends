@@ -23,7 +23,7 @@
       <!-- partial:../../partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" id="websiteName" href="index.php">PayFriends</a>
+          <a class="navbar-brand brand-logo" id="websiteName" href="../../index.php">PayFriends</a>
           <a class="navbar-brand brand-logo-mini" href="../../index.php"><img src="../../assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -161,7 +161,7 @@
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title"> Nouvel évènement  </h3>
+              <h3 class="menu-title"> Nouvel évènement  </h3>
             </div>
             <div class="row">
               <div class="col-md-6 grid-margin stretch-card">
@@ -195,15 +195,15 @@
                     <p class="card-description"> Liste des participants </p>
                     <form class="forms-sample">
                       <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Titre</label>
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Nom</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre">
+                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Nom">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Desc</label>
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Prénom</label>
                         <div class="col-sm-9">
-                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="description">
+                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="Prénom">
                         </div>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Ajouter</button>
