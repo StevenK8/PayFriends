@@ -54,7 +54,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="assets/images/faces/face1.jpg" alt="image">
+                  <img src="<?php echo "assets/images/faces/".$_SESSION["username"].".png"?>" alt="image">
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -140,7 +140,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  <img src="assets/images/faces/face1.jpg" alt="profile">
+                  <img src="<?php echo "assets/images/faces/".$_SESSION["username"].".png"?>" alt="profile">
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
@@ -174,7 +174,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               <span class="nav-link">
                 <div class="border-bottom">
                 </div>
-                <a class="nav-link" href="pages/forms/newevent.php">
+                <a class="nav-link" href="pages/forms/newEvent.php">
                   <button class="btn btn-block btn-lg btn-gradient-primary mt-4" id="newEvent">+ Nouvel événement</button>
                 </a>
               </span>
