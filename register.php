@@ -1,4 +1,13 @@
 <?php
+// Initialize the session
+session_start();
+ 
+// Si l'utilsateur est déjà connecté il est redirigé vers la page d'accueil
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: index.php");
+    exit;
+}
+ 
 // Include config file
 require_once "config.php";
  
@@ -77,6 +86,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
+                //Sauvegarde un avatar généré à partir de l'username grâce à une API
+                copy("https://api.adorable.io/avatars/285/".$username.".png", "assets/images/faces/".$username.".png");
+                // file_put_contents("assets/images/faces", file_get_contents("https://api.adorable.io/avatars/285/".$username.".png"));
                 // Redirect to login page
                 header("location: login.php");
             } else{
