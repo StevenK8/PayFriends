@@ -7,6 +7,122 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: ../../login.php");
     exit;
 }
+
+// Include config file
+require_once "../../config.php";
+ 
+// Define variables and initialize with empty values
+$title = $description = "";
+$title_err = $description_err = "";
+
+
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+  // Validate title
+  if(empty(trim($_POST["title"]))){
+      $title_err = "Veuillez renseigner un titre.";
+  } else{
+      $title = trim($_POST["title"]);
+  }
+  
+  // Validate description
+  if(empty(trim($_POST["description"]))){
+      $description_err = "Veuillez renseigner une description.";     
+  } else{
+      $description = trim($_POST["description"]);
+  }
+
+  function randomURL($URLlength = 12) {
+    $charray = array_merge(range('a','z'), range('0','9'));
+    $max = count($charray) - 1;
+    $url = "";
+    for ($i = 0; $i < $URLlength; $i++) {
+        $randomChar = mt_rand(0, $max);
+        $url .= $charray[$randomChar];
+    }
+    return $url;
+  }
+  
+
+  function checkToken($tokenInput, $db){
+    // Prepare a select statement
+    $sql = "SELECT id FROM events WHERE token = ?";
+          
+    if($stmt = mysqli_prepare($db, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "s", $token);
+        
+        // Set parameters
+        $token = $tokenInput;
+
+        // Attempt to execute the prepared statement
+        if(mysqli_stmt_execute($stmt)){
+            /* store result */
+            mysqli_stmt_store_result($stmt);
+            
+            if(mysqli_stmt_num_rows($stmt) == 1){
+              return false;
+            }
+            else{
+              return true;
+            }
+        } else{
+            echo "Oops! Something went wrong. Please try again later.";
+            return false;
+        }
+    }
+    return false;
+        // Close statement
+    mysqli_stmt_close($stmt);
+
+  }
+
+  $token = randomURL();
+  while(!checkToken($token, $db)){
+    $nbcheck++;
+    if($nbcheck > 10){
+      break;
+    }
+  }
+
+   
+
+  // Check input errors before inserting in database
+  if(empty($title_err) && empty($description_err)){
+      
+      // Prepare an insert statement
+      $sql = "INSERT INTO events (title, description, token) VALUES (?, ?, ?)";
+      // $sql2 = "INSERT INTO members (ide, idu) VALUES (?, ?)";
+       
+      if($stmt = mysqli_prepare($db, $sql)){
+          // Bind variables to the prepared statement as parameters
+          mysqli_stmt_bind_param($stmt, "sss", $title, $description, $token);
+          
+          // Attempt to execute the prepared statement
+          if(!mysqli_stmt_execute($stmt)){
+              echo "Something went wrong. Please try again later.";
+          }
+      }
+
+    //   if($stmt = mysqli_prepare($db, $sql2)){
+    //     // Bind variables to the prepared statement as parameters
+    //     mysqli_stmt_bind_param($stmt, "ii", $_SESSION["id"], $ide);
+        
+    //     // Attempt to execute the prepared statement
+    //     if(!mysqli_stmt_execute($stmt)){
+    //         echo "Something went wrong. Please try again later.";
+    //     }
+    // }
+       
+      // Close statement
+      mysqli_stmt_close($stmt);
+  }
+  
+  // Close connection
+  mysqli_close($db);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +131,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Purple Admin</title>
+    <title>Payfriends</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
@@ -182,15 +298,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                   <div class="card-body">
                     <h4 class="card-title">Formulaire</h4>
                     <p class="card-description"> Veuillez remplir ces champs </p>
-                    <form class="forms-sample">
-                      <div class="form-group">
-                        <label for="exampleInputUsername2" >Titre</label>
-                        <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre"> 
+                    <form class="forms-sample" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                      <div class="form-group <?php echo (!empty($title_err)) ? 'has-error' : ''; ?>">
+                        <label for="title" >Titre</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Titre" required>
+                        <span class="help-block"><?php echo $title_err; ?></span>
                       </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail2" >Description</label>
-                        <textarea rows="4" cols="10" class="form-control" id="exampleInputEmail2" placeholder="Description" maxlength="100"></textarea>
-
+                      <div class="form-group <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
+                        <label for="description" >Description</label>
+                        <textarea rows="4" cols="10" class="form-control" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
+                        <span class="help-block"><?php echo $description_err; ?></span>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
@@ -205,15 +322,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     <p class="card-description"> Liste des participants </p>
                     <form class="forms-sample">
                       <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Nom</label>
+                        <label for="title" class="col-sm-3 col-form-label">Nom</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Nom">
+                          <input type="text" class="form-control" id="title" placeholder="Nom">
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Prénom</label>
+                        <label for="description" class="col-sm-3 col-form-label">Prénom</label>
                         <div class="col-sm-9">
-                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="Prénom">
+                          <input type="textarea" class="form-control" id="description" placeholder="Prénom">
                         </div>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Ajouter</button>
