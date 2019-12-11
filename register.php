@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Validate username
     if(empty(trim($_POST["username"]))){
-        $username_err = "Please enter a username.";
+        $username_err = "Veuillez rentrer un nom d'utilisateur.";
     } else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
