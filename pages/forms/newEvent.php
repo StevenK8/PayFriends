@@ -27,7 +27,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <!-- Layout styles -->
     <link rel="stylesheet" href="../../assets/css/style.css">
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="../../assets/images/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="../../assets/images/icons/site.webmanifest">
+    <link rel="mask-icon" href="../../assets/images/icons/safari-pinned-tab.svg" color="#9a55ff">
+    <link rel="shortcut icon" href="../../assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#9f00a7">
+    <meta name="msapplication-config" content="../../assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
   </head>
   <body>
     <div class="container-scroller">
@@ -175,17 +183,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     <h4 class="card-title">Formulaire</h4>
                     <p class="card-description"> Veuillez remplir ces champs </p>
                     <form class="forms-sample">
-                      <div class="form-group row">
-                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Titre</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre">
-                        </div>
+                      <div class="form-group">
+                        <label for="exampleInputUsername2" >Titre</label>
+                        <input type="text" class="form-control" id="exampleInputUsername2" placeholder="Titre"> 
                       </div>
-                      <div class="form-group row">
-                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Desc</label>
-                        <div class="col-sm-9">
-                          <input type="textarea" class="form-control" id="exampleInputEmail2" placeholder="description">
-                        </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail2" >Description</label>
+                        <textarea rows="4" cols="10" class="form-control" id="exampleInputEmail2" placeholder="Description" maxlength="100"></textarea>
+
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
