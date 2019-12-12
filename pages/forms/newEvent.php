@@ -323,7 +323,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                           /* fetch values */
                           while (mysqli_stmt_fetch($stmt)) {
-                            echo '<li class="nav-item"> <a class="nav-link" href="../../index.php?id='.$id.'">'.$title.'</a></li>';
+                            echo '<li class="nav-item" id="'.$id.'"> <a class="nav-link" href="../../index.php?id='.$id.'">'.$title.'</a></li>';
                           }
                           mysqli_stmt_fetch($stmt);
                       } else{
