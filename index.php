@@ -7,6 +7,9 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+
+// Include config file
+require_once "config.php";
 ?>
 
 <!DOCTYPE html>
@@ -164,8 +167,32 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+                  <?php
+                  //Get user events
+                  $sql = "SELECT e.id,title FROM events e, members m WHERE e.id like m.ide and m.idu = ?";
+                      
+                  if($stmt = mysqli_prepare($db, $sql)){
+                      // Bind variables to the prepared statement as parameters
+                      mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
+              
+                      // Attempt to execute the prepared statement
+                      if(mysqli_stmt_execute($stmt)){
+                          mysqli_stmt_bind_result($stmt, $id, $title);
+
+                          /* fetch values */
+                          while (mysqli_stmt_fetch($stmt)) {
+                            echo '<li class="nav-item"> <a class="nav-link" href="index.php?id='.$id.'">'.$title.'</a></li>';
+                          }
+                          mysqli_stmt_fetch($stmt);
+                      } else{
+                          echo "Oops! Something went wrong. Please try again later.";
+                      }
+                  }
+                  // Close statement
+                  mysqli_stmt_close($stmt);
+                  ?>
+                  <!-- <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> -->
                 </ul>
               </div>
             </li>
