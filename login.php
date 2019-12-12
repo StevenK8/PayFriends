@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty(trim($username))){
         $username_err = "Veuillez renseigner un email.";
     } else{
-        $username = trim($_POST["username"]);
+        $username = htmlspecialchars(trim($_POST["username"]));
     }
     
     // Check if password is empty

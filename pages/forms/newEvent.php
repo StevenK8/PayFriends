@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   }elseif(strlen(trim($_POST["title"])) > 30){
     $title_err = "Le nom de l'événement ne doit pas dépasser 30 caractères.";
   } else{
-    $title = trim($_POST["title"]);
+    $title = htmlspecialchars(trim($_POST["title"]));
   }
   
   // Validate description
@@ -34,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   } elseif(strlen(trim($_POST["description"])) > 100){
     $description_err = "La description ne doit pas dépasser 100 caractères.";
   }else{
-      $description = trim($_POST["description"]);
+      $description = htmlspecialchars(trim($_POST["description"]));
   }
 
   function randomURL($URLlength = 12) {
