@@ -13,7 +13,7 @@ require_once "../../config.php";
  
 // Define variables and initialize with empty values
 $title = $description = "";
-$title_err = $description_err = "";
+$title_err = $description_err = $event_success = "";
 
 
 // Processing form data when form is submitted
@@ -21,15 +21,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
   // Validate title
   if(empty(trim($_POST["title"]))){
-      $title_err = "Veuillez renseigner un titre.";
+    $title_err = "Veuillez renseigner un titre.";
+  }elseif(strlen(trim($_POST["title"])) > 30){
+    $title_err = "Le nom de l'événement ne doit pas dépasser 30 caractères.";
   } else{
-      $title = trim($_POST["title"]);
+    $title = trim($_POST["title"]);
   }
   
   // Validate description
   if(empty(trim($_POST["description"]))){
-      $description_err = "Veuillez renseigner une description.";     
-  } else{
+      $description_err = "Veuillez renseigner une description.";  
+  } elseif(strlen(trim($_POST["description"])) > 100){
+    $description_err = "La description ne doit pas dépasser 100 caractères.";
+  }else{
       $description = trim($_POST["description"]);
   }
 
@@ -86,6 +90,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
   }
 
+  function addMember($db, $ide, $idu){
+    $sql = "INSERT INTO members (ide, idu) VALUES (?, ?)";
+    if($stmt = mysqli_prepare($db, $sql)){
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "ii", $ide, $idu);
+      
+      // Attempt to execute the prepared statement
+      if(!mysqli_stmt_execute($stmt)){
+          echo "Something went wrong. Please try again later.";
+      }
+    }
+    // Close statement
+    mysqli_stmt_close($stmt);
+  }
    
 
   // Check input errors before inserting in database
@@ -93,7 +111,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       
       // Prepare an insert statement
       $sql = "INSERT INTO events (title, description, token) VALUES (?, ?, ?)";
-      // $sql2 = "INSERT INTO members (ide, idu) VALUES (?, ?)";
        
       if($stmt = mysqli_prepare($db, $sql)){
           // Bind variables to the prepared statement as parameters
@@ -102,21 +119,34 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           // Attempt to execute the prepared statement
           if(!mysqli_stmt_execute($stmt)){
               echo "Something went wrong. Please try again later.";
+          }else{
+            $event_success = "L'événement ".$title." a été créé avec succès!";
           }
+          
       }
-
-    //   if($stmt = mysqli_prepare($db, $sql2)){
-    //     // Bind variables to the prepared statement as parameters
-    //     mysqli_stmt_bind_param($stmt, "ii", $_SESSION["id"], $ide);
-        
-    //     // Attempt to execute the prepared statement
-    //     if(!mysqli_stmt_execute($stmt)){
-    //         echo "Something went wrong. Please try again later.";
-    //     }
-    // }
-       
       // Close statement
       mysqli_stmt_close($stmt);
+
+      //Get newly added event ID
+      $sql2 = "SELECT id FROM events WHERE token = ? limit 1";
+          
+      if($stmt = mysqli_prepare($db, $sql2)){
+          // Bind variables to the prepared statement as parameters
+          mysqli_stmt_bind_param($stmt, "s", $token);
+  
+          // Attempt to execute the prepared statement
+          if(mysqli_stmt_execute($stmt)){
+              mysqli_stmt_bind_result($stmt, $ide);
+              mysqli_stmt_fetch($stmt);
+          } else{
+              echo "Oops! Something went wrong. Please try again later.";
+          }
+      }
+      // Close statement
+      mysqli_stmt_close($stmt);
+
+      //add event creator to event
+      addMember($db, $ide, $_SESSION["id"]);
   }
   
   // Close connection
@@ -279,8 +309,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a></li>
+                <?php
+                  //Get user events
+                  $sql = "SELECT e.id,title FROM events e, members m WHERE e.id like m.ide and m.idu = ?";
+                      
+                  if($stmt = mysqli_prepare($db, $sql)){
+                      // Bind variables to the prepared statement as parameters
+                      mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
+              
+                      // Attempt to execute the prepared statement
+                      if(mysqli_stmt_execute($stmt)){
+                          mysqli_stmt_bind_result($stmt, $id, $title);
+
+                          /* fetch values */
+                          while (mysqli_stmt_fetch($stmt)) {
+                            echo '<li class="nav-item"> <a class="nav-link" href="../../index.php?id='.$id.'">'.$title.'</a></li>';
+                          }
+                          mysqli_stmt_fetch($stmt);
+                      } else{
+                          echo "Oops! Something went wrong. Please try again later.";
+                      }
+                  }
+                  // Close statement
+                  mysqli_stmt_close($stmt);
+                  ?>
                 </ul>
               </div>
             </li>
@@ -311,6 +363,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
+                      <span class="help-block"><?php echo $event_success; ?></span>
                     </form>
                   </div>
                 </div>
