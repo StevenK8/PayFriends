@@ -72,7 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               return true;
             }
         } else{
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Erreur token";
             return false;
         }
     }
@@ -98,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       
       // Attempt to execute the prepared statement
       if(!mysqli_stmt_execute($stmt)){
-          echo "Something went wrong. Please try again later.";
+          echo "Erreur d'ajout member";
       }
     }
     // Close statement
@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           
           // Attempt to execute the prepared statement
           if(!mysqli_stmt_execute($stmt)){
-              echo "Something went wrong. Please try again later.";
+              echo "Erreur ajout événement.";
           }else{
             $event_success = "L'événement ".$title." a été créé avec succès!";
           }
@@ -139,7 +139,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               mysqli_stmt_bind_result($stmt, $ide);
               mysqli_stmt_fetch($stmt);
           } else{
-              echo "Oops! Something went wrong. Please try again later.";
+              echo "Erreur récupération id from token";
           }
       }
       // Close statement
