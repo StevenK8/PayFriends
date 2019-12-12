@@ -30,7 +30,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_bind_param($stmt, "s", $param_username);
             
             // Set parameters
-            $param_username = htmlspecialchars(trim($_POST["username"]));
+            $param_username = preg_replace('/\s+/', '', htmlspecialchars(trim($_POST["username"])));
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 if(mysqli_stmt_num_rows($stmt) == 1){
                     $username_err = "Ce nom d'utilisateur est déjà utilisé.";
                 } else{
-                    $username = htmlspecialchars(trim($_POST["username"]));
+                    $username = preg_replace('/\s+/', '', htmlspecialchars(trim($_POST["username"])));
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
