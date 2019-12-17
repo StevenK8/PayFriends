@@ -241,7 +241,30 @@ if(isset($_GET["id"])){
               <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white mr-2">
                   <i class="mdi mdi-home"></i>
-                </span> Dashboard </h3>
+                </span>
+                <?php
+                if(isset($_GET["id"])){
+                  $sql = "SELECT title FROM events e WHERE e.id like ?";
+                      
+                  if($stmt = mysqli_prepare($db, $sql)){
+                      // Bind variables to the prepared statement as parameters
+                      mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+              
+                      // Attempt to execute the prepared statement
+                      if(mysqli_stmt_execute($stmt)){
+                          mysqli_stmt_bind_result($stmt, $title);
+
+                          mysqli_stmt_fetch($stmt);
+                          echo $title;
+                      } else{
+                          echo "Erreur title";
+                      }
+                  }
+                  // Close statement
+                  mysqli_stmt_close($stmt);
+                }
+
+                ?> </h3>
             </div>
             <div class="row">
               <div class="col-md-4 stretch-card grid-margin">
