@@ -13392,4 +13392,9 @@ a#websiteName {
 .help-block{
   border-color: #fe7c96 !important;
 }
+
+.block{
+  display: block !important;
+}
+
 /*# sourceMappingURL=style.css.map */
