@@ -351,19 +351,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h4 class="card-title">Formulaire</h4>
                     <p class="card-description"> Veuillez remplir ces champs </p>
                     <form class="forms-sample" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                      <div class="form-group <?php echo (!empty($title_err)) ? 'has-error' : ''; ?>">
+                      <div class="form-group">
                         <label for="title" >Titre</label>
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Titre" required>
-                        <span class="help-block"><?php echo $title_err; ?></span>
+                        <input type="text" class="form-control <?php echo (!empty($title_err)) ? 'is-invalid help-block' : ''; ?>" id="title" name="title" placeholder="Titre" required>
+                        <span class="invalid-feedback text-danger"><?php echo $title_err; ?></span>
                       </div>
-                      <div class="form-group <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
+                      <div class="form-group">
                         <label for="description" >Description</label>
-                        <textarea rows="4" cols="10" class="form-control" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
-                        <span class="help-block"><?php echo $description_err; ?></span>
+                        <textarea rows="4" cols="10" class="form-control <?php echo (!empty($description_err)) ? 'is-invalid help-block' : ''; ?>" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
+                        <span class="invalid-feedback text-danger"><?php echo $description_err; ?></span>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
-                      <span class="help-block"><?php echo $event_success; ?></span>
+                      <span class="invalid-feedback text-danger"><?php echo $event_success; ?></span>
                     </form>
                   </div>
                 </div>

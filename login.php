@@ -132,12 +132,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <h6 class="font-weight-light">Connectez-vous pour continuer</h6>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="pt-3">
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-lg <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>" id="username" name="username" placeholder="Nom d'utilisateur" required>
-                    <span class="help-block"><?php echo $username_err; ?></span>
+                    <input type="text" class="form-control form-control-lg <?php echo (!empty($username_err)) ? 'is-invalid help-block' : ''; ?>" id="username" name="username" placeholder="Nom d'utilisateur" required>
+                    <span class="invalid-feedback text-danger"><?php echo $username_err; ?></span>
                   </div>
-                  <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                    <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Mot de passe" required>
-                    <span class="help-block"><?php echo $password_err; ?></span>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-lg <?php echo (!empty($password_err)) ? 'is-invalid help-block' : ''; ?>" id="password" name="password" placeholder="Mot de passe" required>
+                    <span class="invalid-feedback text-danger"><?php echo $password_err; ?></span>
                   </div>
                   <div class="mt-3">
                     <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">CONNEXION</button>
