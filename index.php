@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
- 
+
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -17,16 +17,16 @@ if(isset($_GET["id"])){
   if($stmt = mysqli_prepare($db, $sql)){
     // Bind variables to the prepared statement as parameters
     mysqli_stmt_bind_param($stmt, "is", $_GET["id"], $_SESSION["id"]);
-    
+
     // Attempt to execute the prepared statement
     if(mysqli_stmt_execute($stmt)){
         // Store result
         mysqli_stmt_store_result($stmt);
-        
+
         // Check if username exists, if yes then verify password
         if(mysqli_stmt_num_rows($stmt) != 1){
-          $_GET["id"] = ""; 
-          mysqli_stmt_close($stmt);              
+          $_GET["id"] = "";
+          mysqli_stmt_close($stmt);
           header("location: index.php");
         }
     }
@@ -196,11 +196,11 @@ if(isset($_GET["id"])){
                   <?php
                   //Get user events
                   $sql = "SELECT e.id,title FROM events e, members m WHERE e.id like m.ide and m.idu = ?";
-                      
+
                   if($stmt = mysqli_prepare($db, $sql)){
                       // Bind variables to the prepared statement as parameters
                       mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
-              
+
                       // Attempt to execute the prepared statement
                       if(mysqli_stmt_execute($stmt)){
                           mysqli_stmt_bind_result($stmt, $id, $title);
@@ -245,11 +245,11 @@ if(isset($_GET["id"])){
                 <?php
                 if(isset($_GET["id"])){
                   $sql = "SELECT title FROM events e WHERE e.id like ?";
-                      
+
                   if($stmt = mysqli_prepare($db, $sql)){
                       // Bind variables to the prepared statement as parameters
                       mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-              
+
                       // Attempt to execute the prepared statement
                       if(mysqli_stmt_execute($stmt)){
                           mysqli_stmt_bind_result($stmt, $title);
@@ -387,7 +387,7 @@ if(isset($_GET["id"])){
                 </div>
               </div>
             </div>
-            <div class="row">
+            <!--<div class="row">
               <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -468,7 +468,7 @@ if(isset($_GET["id"])){
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
@@ -477,7 +477,7 @@ if(isset($_GET["id"])){
                       <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
                       <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-task">Add</button>
                     </div>
-                    <div class="list-wrapper">
+                    <!--<div class="list-wrapper">
                       <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
                         <li>
                           <div class="form-check">
@@ -522,7 +522,7 @@ if(isset($_GET["id"])){
                           <i class="remove mdi mdi-close-circle-outline"></i>
                         </li>
                       </ul>
-                    </div>
+                    </div>-->
                   </div>
                 </div>
               </div>
