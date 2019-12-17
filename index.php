@@ -257,11 +257,13 @@ if(isset($_GET["id"])){
                           mysqli_stmt_fetch($stmt);
                           echo $title;
                       } else{
-                          echo "Erreur title";
+                          echo "Error";
                       }
                   }
                   // Close statement
                   mysqli_stmt_close($stmt);
+                }else{
+                  echo "Dashboard";
                 }
 
                 ?> </h3>
