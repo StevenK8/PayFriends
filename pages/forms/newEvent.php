@@ -13,7 +13,7 @@ require_once "../../config.php";
  
 // Define variables and initialize with empty values
 $title = $description = "";
-$title_err = $description_err = $event_success = "";
+$title_err = $description_err = $event_success = $event_error = "";
 
 
 // Processing form data when form is submitted
@@ -118,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           
           // Attempt to execute the prepared statement
           if(!mysqli_stmt_execute($stmt)){
-              echo "Erreur ajout événement.";
+            $event_error = "L'événement ".$title." n'a pas pu être ajouté";
           }else{
             $event_success = "L'événement ".$title." a été créé avec succès!";
           }
@@ -210,7 +210,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <a class="dropdown-item" href="#">
                   <i class="mdi mdi-cached mr-2 text-success"></i> Activity Log </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="../../logout.php">
                   <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
               </div>
             </li>
@@ -353,17 +353,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <form class="forms-sample" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                       <div class="form-group">
                         <label for="title" >Titre</label>
-                        <input type="text" class="form-control <?php echo (!empty($title_err)) ? 'is-invalid help-block' : ''; ?>" id="title" name="title" placeholder="Titre" required>
+                        <input type="text" class="form-control form-control-lg <?php echo (!empty($title_err)) ? 'is-invalid help-block' : ''; ?>" id="title" name="title" placeholder="Titre" required>
                         <span class="invalid-feedback text-danger"><?php echo $title_err; ?></span>
                       </div>
                       <div class="form-group">
                         <label for="description" >Description</label>
-                        <textarea rows="4" cols="10" class="form-control <?php echo (!empty($description_err)) ? 'is-invalid help-block' : ''; ?>" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
+                        <textarea rows="4" cols="10" class="form-control form-control-lg <?php echo (!empty($description_err)) ? 'is-invalid help-block' : ''; ?>" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
                         <span class="invalid-feedback text-danger"><?php echo $description_err; ?></span>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
-                      <span class="invalid-feedback text-danger"><?php echo $event_success; ?></span>
+                      <span class="valid-feedback text-success block"><?php echo $event_success; ?></span>
+                      <span class="invalid-feedback text-danger block"><?php echo $event_error; ?></span>
                     </form>
                   </div>
                 </div>
@@ -377,13 +378,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <div class="form-group row">
                         <label for="title" class="col-sm-3 col-form-label">Nom</label>
                         <div class="col-sm-9">
-                          <input type="text" class="form-control" id="title" placeholder="Nom">
+                          <input type="text" class="form-control" name="name" placeholder="Nom">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="description" class="col-sm-3 col-form-label">Prénom</label>
                         <div class="col-sm-9">
-                          <input type="textarea" class="form-control" id="description" placeholder="Prénom">
+                          <input type="textarea" class="form-control" name="firstname" placeholder="Prénom">
                         </div>
                       </div>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Ajouter</button>
