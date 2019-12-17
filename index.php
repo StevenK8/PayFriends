@@ -508,7 +508,7 @@ if(isset($_GET["id"])){
                     </div>
                   </div>
                 </div>
-              </div> -->
+              </div> 
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
