@@ -10,6 +10,32 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
 // Include config file
 require_once "config.php";
+
+if(isset($_GET["id"])){
+  $sql = "SELECT ide,idu FROM members WHERE ide = ? AND idu = ?";
+
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "is", $_GET["id"], $_SESSION["id"]);
+    
+    // Attempt to execute the prepared statement
+    if(mysqli_stmt_execute($stmt)){
+        // Store result
+        mysqli_stmt_store_result($stmt);
+        
+        // Check if username exists, if yes then verify password
+        if(mysqli_stmt_num_rows($stmt) != 1){
+          $_GET["id"] = ""; 
+          mysqli_stmt_close($stmt);              
+          header("location: index.php");
+        }
+    }
+  }
+  // Close statement
+  mysqli_stmt_close($stmt);
+}
+
+
 ?>
 
 <!DOCTYPE html>
