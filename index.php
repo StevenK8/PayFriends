@@ -323,24 +323,70 @@ if(isset($_GET["id"])){
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-12 grid-margin">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Recent Tickets</h4>
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th> Assignee </th>
-                            <th> Subject </th>
-                            <th> Status </th>
-                            <th> Last Update </th>
-                            <th> Tracking ID </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
+            
+                        <?php
+                        if(isset($_GET["id"])){
+
+                          echo '<div class="row">
+                          <div class="col-12 grid-margin">
+                            <div class="card">
+                              <div class="card-body">
+                                <h4 class="card-title">Participants</h4>
+                                <div class="table-responsive">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th> Nom d\'utilisateur </th>
+                                        <th> Somme totale </th>
+                                        <th> Status </th>
+                                        <th> Last Update </th>
+                                        <th> Tracking ID </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>';
+                          //Get user events
+                          $sql = "SELECT username FROM members m, users u WHERE id like idu and ide = ?";
+                              
+                          if($stmt = mysqli_prepare($db, $sql)){
+                              // Bind variables to the prepared statement as parameters
+                              mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+                      
+                              // Attempt to execute the prepared statement
+                              if(mysqli_stmt_execute($stmt)){
+                                  mysqli_stmt_bind_result($stmt, $username);
+        
+                                  /* fetch values */
+                                  while (mysqli_stmt_fetch($stmt)) {
+                                    echo '<tr>
+                                    <td>
+                                      <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                    <td> 100€ </td>
+                                    <td>
+                                      <label class="badge badge-gradient-success">DONE</label>
+                                    </td>
+                                    <td> Dec 5, 2017 </td>
+                                    <td> WD-12345 </td>
+                                  </tr>';
+                                  }
+                                  mysqli_stmt_fetch($stmt);
+                              } else{
+                                  echo "Erreur events barre latérale";
+                              }
+                          }
+                          echo '                        </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>';
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }               
+
+                        ?>
+                        
+                          <!-- <tr>
                             <td>
                               <img src="assets/images/faces/face1.jpg" class="mr-2" alt="image"> David Grey </td>
                             <td> Fund is not recieved </td>
@@ -379,14 +425,8 @@ if(isset($_GET["id"])){
                             </td>
                             <td> Dec 3, 2017 </td>
                             <td> WD-12348 </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                          </tr> -->
+
             <div class="row">
               <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
