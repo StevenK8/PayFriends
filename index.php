@@ -325,7 +325,7 @@ if(isset($_GET["id"])){
                 </div>
               </div>
             </div>
-            
+
                         <?php
                         if(isset($_GET["id"])){
 
@@ -348,15 +348,15 @@ if(isset($_GET["id"])){
                                     <tbody>';
                           //Get user events
                           $sql = "SELECT username FROM members m, users u WHERE id like idu and ide = ?";
-                              
+
                           if($stmt = mysqli_prepare($db, $sql)){
                               // Bind variables to the prepared statement as parameters
                               mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-                      
+
                               // Attempt to execute the prepared statement
                               if(mysqli_stmt_execute($stmt)){
                                   mysqli_stmt_bind_result($stmt, $username);
-        
+
                                   /* fetch values */
                                   while (mysqli_stmt_fetch($stmt)) {
                                     echo '<tr>
@@ -384,51 +384,9 @@ if(isset($_GET["id"])){
                 </div>';
                           // Close statement
                           mysqli_stmt_close($stmt);
-                        }               
+                        }
 
                         ?>
-                        
-                          <!-- <tr>
-                            <td>
-                              <img src="assets/images/faces/face1.jpg" class="mr-2" alt="image"> David Grey </td>
-                            <td> Fund is not recieved </td>
-                            <td>
-                              <label class="badge badge-gradient-success">DONE</label>
-                            </td>
-                            <td> Dec 5, 2017 </td>
-                            <td> WD-12345 </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img src="assets/images/faces/face2.jpg" class="mr-2" alt="image"> Stella Johnson </td>
-                            <td> High loading time </td>
-                            <td>
-                              <label class="badge badge-gradient-warning">PROGRESS</label>
-                            </td>
-                            <td> Dec 12, 2017 </td>
-                            <td> WD-12346 </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img src="assets/images/faces/face3.jpg" class="mr-2" alt="image"> Marina Michel </td>
-                            <td> Website down for one week </td>
-                            <td>
-                              <label class="badge badge-gradient-info">ON HOLD</label>
-                            </td>
-                            <td> Dec 16, 2017 </td>
-                            <td> WD-12347 </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <img src="assets/images/faces/face4.jpg" class="mr-2" alt="image"> John Doe </td>
-                            <td> Loosing control on server </td>
-                            <td>
-                              <label class="badge badge-gradient-danger">REJECTED</label>
-                            </td>
-                            <td> Dec 3, 2017 </td>
-                            <td> WD-12348 </td>
-                          </tr> -->
-
             <div class="row">
               <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
@@ -510,61 +468,15 @@ if(isset($_GET["id"])){
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title text-white">Todo</h4>
                     <div class="add-items d-flex">
-                      <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
+                      <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
                       <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-task">Add</button>
                     </div>
-                    <!--<div class="list-wrapper">
-                      <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
-                        <li>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox"> Meeting with Alisa </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                        <li class="completed">
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox" checked> Call John </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                        <li>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox"> Create invoice </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                        <li>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox"> Print Statements </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                        <li class="completed">
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox" checked> Prepare for presentation </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                        <li>
-                          <div class="form-check">
-                            <label class="form-check-label">
-                              <input class="checkbox" type="checkbox"> Pick up kids from school </label>
-                          </div>
-                          <i class="remove mdi mdi-close-circle-outline"></i>
-                        </li>
-                      </ul>
-                    </div>-->
                   </div>
                 </div>
               </div>
