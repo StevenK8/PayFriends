@@ -273,7 +273,7 @@ if(isset($_GET["id"])){
                 <div class="card bg-gradient-danger card-img-holder text-white">
                   <div class="card-body">
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Sales <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                    <h4 class="font-weight-normal mb-3">Coût total <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                     </h4>
                     <h2 class="mb-5">$ 15,0000</h2>
                     <h6 class="card-text">Increased by 60%</h6>
@@ -284,7 +284,7 @@ if(isset($_GET["id"])){
                 <div class="card bg-gradient-info card-img-holder text-white">
                   <div class="card-body">
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Weekly Orders <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                    <h4 class="font-weight-normal mb-3">Vos dépenses <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
                     </h4>
                     <h2 class="mb-5">45,6334</h2>
                     <h6 class="card-text">Decreased by 10%</h6>
@@ -295,7 +295,7 @@ if(isset($_GET["id"])){
                 <div class="card bg-gradient-success card-img-holder text-white">
                   <div class="card-body">
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
-                    <h4 class="font-weight-normal mb-3">Visitors Online <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                    <h4 class="font-weight-normal mb-3">Participants <i class="mdi mdi-account-multiple mdi-24px float-right"></i>
                     </h4>
                     <h2 class="mb-5">95,5741</h2>
                     <h6 class="card-text">Increased by 5%</h6>
@@ -474,10 +474,10 @@ if(isset($_GET["id"])){
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title text-white">Todo</h4>
+                    <h4 class="card-title">Ajout participants</h4><br>
                     <div class="add-items d-flex">
                       <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
-                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-task">Add</button>
+                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-task"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
                     </div>
                   </div>
                 </div>
