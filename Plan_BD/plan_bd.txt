@@ -1,0 +1,31 @@
+PayFriends
+	-events
+		-ide
+		-titre
+		-description
+
+	-users
+		-idu
+		-username
+		-password
+	-members
+		-ide pk
+		-idu fk users
+		-idm
+		-pseudo
+		-statut
+	-depenses
+		-idd pk
+		-nom unique
+		-ide fk events
+		-description
+		-totalAPayer
+		-restantAPayer
+	-membersDepense
+		-idd fk depense
+		-idu fk users
+	-paiement
+		-prix
+		-idu
+		-idd
+		-boolean isPaid
