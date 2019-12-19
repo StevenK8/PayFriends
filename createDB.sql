@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `depenses`
 --
 
-CREATE TABLE `depenses` (
+CREATE OR REPLACE TABLE `depenses` (
   `id` int(11) NOT NULL,
   `nom` varchar(50) NOT NULL,
   `ide` int(11) NOT NULL,
@@ -53,7 +53,7 @@ INSERT INTO `depenses` (`id`, `nom`, `ide`, `prix`, `idu`, `prix_par_user`) VALU
 -- Structure de la table `events`
 --
 
-CREATE TABLE `events` (
+CREATE OR REPLACE TABLE `events` (
   `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -79,7 +79,7 @@ INSERT INTO `events` (`id`, `title`, `description`, `token`) VALUES
 -- Structure de la table `members`
 --
 
-CREATE TABLE `members` (
+CREATE OR REPLACE TABLE `members` (
   `ide` int(11) NOT NULL,
   `idu` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -107,7 +107,7 @@ INSERT INTO `members` (`ide`, `idu`) VALUES
 -- Structure de la table `members_depense`
 --
 
-CREATE TABLE `members_depense` (
+CREATE OR REPLACE TABLE `members_depense` (
   `idd` int(11) NOT NULL,
   `idu` int(11) NOT NULL,
   `haspaid` decimal(1,0) NOT NULL
@@ -126,7 +126,7 @@ INSERT INTO `members_depense` (`idd`, `idu`, `haspaid`) VALUES
 -- Structure de la table `users`
 --
 
-CREATE TABLE `users` (
+CREATE OR REPLACE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL
