@@ -2,15 +2,17 @@ CREATE DATABASE payfriends;
 USE payfriends;
 
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Client :  localhost:3306
--- Généré le :  Mar 17 Décembre 2019 à 12:45
--- Version du serveur :  10.3.17-MariaDB-0+deb10u1
--- Version de PHP :  7.3.11-1~deb10u1
+-- Hôte : 127.0.0.1
+-- Généré le :  jeu. 19 déc. 2019 à 12:26
+-- Version du serveur :  10.4.10-MariaDB
+-- Version de PHP :  7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -26,6 +28,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `depenses`
+--
+
+CREATE TABLE `depenses` (
+  `id` int(11) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `ide` int(11) NOT NULL,
+  `prix` int(11) NOT NULL,
+  `idu` int(11) NOT NULL,
+  `prix_par_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `depenses`
+--
+
+INSERT INTO `depenses` (`id`, `nom`, `ide`, `prix`, `idu`, `prix_par_user`) VALUES
+(1, 'Courses', 18, 100, 8, 50);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `events`
 --
 
@@ -37,20 +61,17 @@ CREATE TABLE `events` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `events`
+-- Déchargement des données de la table `events`
 --
 
 INSERT INTO `events` (`id`, `title`, `description`, `token`) VALUES
-(2, 'Vacances été', 'Juillet 2019', 'nytv3cln'),
-(3, 'Vacances été', 'd', '0tgtlk7d537k'),
-(4, 'Vacances été', 'd', '6vkrafor06et'),
-(6, 'Soirée cheval', 'Avec mamie', 'oq6d1c5674cr'),
-(8, 'Soirée cheval', 'oki', 'go0sm51d6qqz'),
-(9, 'Chalet vacances', 'Dans les Alpes', 'fpc6ntk2mjbj'),
-(12, 'Anniversaire de steven', '&lt;3', 'if0re8s1o7w6'),
-(13, 'Anniversaire de steven', '&lt;3', 'vbbal5q42c4p'),
-(14, 'Soirée Montparnasse', 'Des barres', '5k04ch58qbbq'),
-(15, 'OK lenovo', 'Mdrr', 'vudrg52t7qjq');
+(18, 'Vacances de Noël', 'Aux ïles canari', 'p6ffc2f3ms4e'),
+(19, 'Vacances été', 'Dans les alpes', 'ylrx18kodsvl'),
+(20, 'Raclette', 'Samedi', 'p7b1caqctkmy'),
+(22, 'Ski', 'En Janvier', 'ltlq7vmxhwai'),
+(35, 'Soirée cheval', 'Avec Charlie', '0x1sk9i8ytl8'),
+(37, 'Banane samedi', 'dza', 'uwwa9d6qx4bc'),
+(38, 'Bob et ses événements', 'alahu', 'ndpxlm5seufh');
 
 -- --------------------------------------------------------
 
@@ -64,14 +85,40 @@ CREATE TABLE `members` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `members`
+-- Déchargement des données de la table `members`
 --
 
 INSERT INTO `members` (`ide`, `idu`) VALUES
-(15, 1),
-(15, 9),
-(14, 1),
-(15, 8);
+(18, 8),
+(19, 8),
+(20, 8),
+(22, 8),
+(35, 8),
+(37, 8),
+(38, 12),
+(20, 12),
+(19, 12),
+(18, 12),
+(35, 12);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `members_depense`
+--
+
+CREATE TABLE `members_depense` (
+  `idd` int(11) NOT NULL,
+  `idu` int(11) NOT NULL,
+  `haspaid` decimal(1,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `members_depense`
+--
+
+INSERT INTO `members_depense` (`idd`, `idu`, `haspaid`) VALUES
+(1, 12, '0');
 
 -- --------------------------------------------------------
 
@@ -86,18 +133,24 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$4VMnfkJVZF5O3RxF/.ko0OgAhvDK/WteO2iv9n6kT4y.cMYg9e72i'),
-(8, 'camillechampomi', '$2y$10$JTa3eu1BlgNQhP1fyJ82XeNVp7j1Ob0u/AO8DHcxTVJVaOpdKIW1S'),
-(9, 'Dam', '$2y$10$oBy6DeflCNM2nu9bUO7YBOjD7TXHE6HNOIotw48ixmpgu0/QiigwO'),
-(14, 'Silvain', '$2y$10$s8khAcFOq3DhbabYTNHqZOhNO2TBiJpvJORIRIgxtj7UC5K6x.HhK');
+(8, 'admin', '$2y$10$MYqNmuorDPCvoKG.yAnKOOcUR2aYagoj9TR5x39fbqmdbB6/Z/R3.'),
+(12, 'bob', '$2y$10$ModPSv7K4M3KwSrq1XFYteKGQJUOp8nSCvVEbrtPe6YiKJnop4NiC');
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `depenses`
+--
+ALTER TABLE `depenses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `DepenseIde` (`ide`),
+  ADD KEY `DepenseIdu` (`idu`);
 
 --
 -- Index pour la table `events`
@@ -114,28 +167,51 @@ ALTER TABLE `members`
   ADD KEY `MembersIde` (`ide`);
 
 --
+-- Index pour la table `members_depense`
+--
+ALTER TABLE `members_depense`
+  ADD KEY `Members_d_Idu` (`idu`),
+  ADD KEY `Members_d_Idd` (`idd`);
+
+--
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `depenses`
+--
+ALTER TABLE `depenses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `depenses`
+--
+ALTER TABLE `depenses`
+  ADD CONSTRAINT `DepenseIde` FOREIGN KEY (`ide`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `DepenseIdu` FOREIGN KEY (`idu`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `members`
@@ -143,6 +219,14 @@ ALTER TABLE `users`
 ALTER TABLE `members`
   ADD CONSTRAINT `MembersIde` FOREIGN KEY (`ide`) REFERENCES `events` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `MembersIdu` FOREIGN KEY (`idu`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `members_depense`
+--
+ALTER TABLE `members_depense`
+  ADD CONSTRAINT `Members_d_Idd` FOREIGN KEY (`idd`) REFERENCES `depenses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `Members_d_Idu` FOREIGN KEY (`idu`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
