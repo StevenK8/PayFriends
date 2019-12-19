@@ -121,34 +121,42 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $event_error = "L'événement ".$title." n'a pas pu être ajouté";
           }else{
             $event_success = "L'événement ".$title." a été créé avec succès!";
+            $ide = getId($db, $token);
+             //add event creator to event
+            addMember($db, $ide, $_SESSION["id"]);
+            mysqli_stmt_close($stmt);
+
+            header("location: ../../index.php?id=$ide");
+            exit;
           }
 
       }
       // Close statement
       mysqli_stmt_close($stmt);
-
-      //Get newly added event ID
-      $sql2 = "SELECT id FROM events WHERE token = ? limit 1";
-
-      if($stmt = mysqli_prepare($db, $sql2)){
-          // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "s", $token);
-
-          // Attempt to execute the prepared statement
-          if(mysqli_stmt_execute($stmt)){
-              mysqli_stmt_bind_result($stmt, $ide);
-              mysqli_stmt_fetch($stmt);
-          } else{
-              echo "Erreur récupération id from token";
-          }
-      }
-      // Close statement
-      mysqli_stmt_close($stmt);
-
-      //add event creator to event
-      addMember($db, $ide, $_SESSION["id"]);
+     
   }
 
+}
+
+function getId($db, $token){
+  //Get newly added event ID
+  $sql2 = "SELECT id FROM events WHERE token = ? limit 1";
+
+  if($stmt = mysqli_prepare($db, $sql2)){
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "s", $token);
+
+      // Attempt to execute the prepared statement
+      if(mysqli_stmt_execute($stmt)){
+          mysqli_stmt_bind_result($stmt, $ide);
+          mysqli_stmt_fetch($stmt);
+      } else{
+          echo "Erreur récupération id from token";
+      }
+  }
+  // Close statement
+  mysqli_stmt_close($stmt);
+  return $ide;
 }
 
 ?>
