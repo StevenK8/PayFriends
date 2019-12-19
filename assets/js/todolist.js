@@ -1,33 +1,59 @@
+function $_GET(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+
+function getXMLHttpRequest() {
+	var xhr = null;
+	
+	if(window.XMLHttpRequest || window.ActiveXObject) {
+		if(window.ActiveXObject) {
+			try {
+				xhr = new ActiveXObject("Msxml2.XMLHTTP");
+			}
+			catch(e) {
+				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+		else {
+			xhr = new XMLHttpRequest(); 
+		}
+	} 
+	else {
+		return null;
+	}
+	
+	return xhr;
+}
+
 (function($) {
   'use strict';
   $(function() {
-    var todoListItem = $('.todo-list');
-    var todoListInput = $('.todo-list-input');
     $('.todo-list-add-btn').on("click", function(event) {
       event.preventDefault();
-
       var item = $(this).prevAll('.todo-list-input').val();
-
+      
       if (item) {
-        todoListItem.append("<li><div class='form-check'><label class='form-check-label'><input class='checkbox' type='checkbox'/>" + item + "<i class='input-helper'></i></label></div><i class='remove mdi mdi-close-circle-outline'></i></li>");
-        todoListInput.val("");
+        var xhr = getXMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("add-user").innerHTML = this.responseText;
+            }
+        };
+        xhr.open("GET","ajoutMembre.php?username="+item+"&ide="+$_GET('id'),true);
+        xhr.send();
       }
 
-    });
-
-    todoListItem.on('change', '.checkbox', function() {
-      if ($(this).attr('checked')) {
-        $(this).removeAttr('checked');
-      } else {
-        $(this).attr('checked', 'checked');
-      }
-
-      $(this).closest("li").toggleClass('completed');
-
-    });
-
-    todoListItem.on('click', '.remove', function() {
-      $(this).parent().remove();
     });
 
   });

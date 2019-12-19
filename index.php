@@ -16,14 +16,14 @@ if(isset($_GET["id"])){
 
   if($stmt = mysqli_prepare($db, $sql)){
     // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($stmt, "is", $_GET["id"], $_SESSION["id"]);
+    mysqli_stmt_bind_param($stmt, "ii", intval($_GET["id"]), $_SESSION["id"]);
 
     // Attempt to execute the prepared statement
     if(mysqli_stmt_execute($stmt)){
         // Store result
         mysqli_stmt_store_result($stmt);
 
-        // Check if username exists, if yes then verify password
+        // Check si l'user est membre de l'evenement
         if(mysqli_stmt_num_rows($stmt) != 1){
           $_GET["id"] = "";
           mysqli_stmt_close($stmt);
@@ -477,7 +477,7 @@ if(isset($_GET["id"])){
                     <h4 class="card-title text-white">Todo</h4>
                     <div class="add-items d-flex">
                       <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
-                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-task">Add</button>
+                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn" id="add-user">Add</button>
                     </div>
                   </div>
                 </div>
@@ -519,3 +519,6 @@ if(isset($_GET["id"])){
     <!-- End custom js for this page -->
   </body>
 </html>
+<?php
+mysqli_close($db);
+?>
