@@ -189,7 +189,7 @@ if(isset($_GET["id"])){
               <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                 <span class="menu-title">Événements</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <i class="mdi mdi mdi-calendar-multiple-check menu-icon"></i>
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
@@ -228,7 +228,7 @@ if(isset($_GET["id"])){
                 <div class="border-bottom">
                 </div>
                 <a class="nav-link" href="pages/forms/newEvent.php">
-                  <button class="btn btn-block btn-lg btn-gradient-primary mt-4" id="newEvent">+ Nouvel événement</button>
+                  <button class="btn btn-block btn-lg btn-gradient-primary mt-4" id="newEvent"><i class="mdi mdi-plus-circle-multiple-outline mdi-24px float-center"></i><br>Nouvel Evénement</button>
                 </a>
               </span>
             </li>
