@@ -39,7 +39,7 @@ if(isset($_GET["id"])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -238,13 +238,10 @@ if(isset($_GET["id"])){
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              <h3 class="page-title">
-                <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                  <i class="mdi mdi-home"></i>
-                </span>
+              
                 <?php
                 if(isset($_GET["id"])){
-                  $sql = "SELECT title FROM events e WHERE e.id like ?";
+                  $sql = "SELECT title,description FROM events e WHERE e.id like ?";
 
                   if($stmt = mysqli_prepare($db, $sql)){
                       // Bind variables to the prepared statement as parameters
@@ -252,10 +249,16 @@ if(isset($_GET["id"])){
 
                       // Attempt to execute the prepared statement
                       if(mysqli_stmt_execute($stmt)){
-                          mysqli_stmt_bind_result($stmt, $title);
+                          mysqli_stmt_bind_result($stmt, $title, $description);
 
                           mysqli_stmt_fetch($stmt);
+                          echo '<h3 class="page-title">
+                          <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                            <i class="mdi mdi-home"></i>
+                          </span>';
                           echo $title;
+                          echo '</h3>';
+                          echo "<i>".$description."</i>";
                       } else{
                           echo "Error";
                       }
@@ -266,7 +269,7 @@ if(isset($_GET["id"])){
                   echo "Menu";
                 }
 
-                ?> </h3>
+                ?>
             </div>
             <div class="row">
               <div class="col-md-4 stretch-card grid-margin">
@@ -479,7 +482,6 @@ if(isset($_GET["id"])){
                       <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
                       <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-task"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
                     </div>
-                    <text > [ON PROGRESS] </text>
                   </div>
                 </div>
               </div>
