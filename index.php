@@ -238,38 +238,36 @@ if(isset($_GET["id"])){
         <div class="main-panel">
           <div class="content-wrapper">
             <div class="page-header">
-              
-                <?php
-                if(isset($_GET["id"])){
-                  $sql = "SELECT title,description FROM events e WHERE e.id like ?";
+              <?php
+              if(isset($_GET["id"])){
+                $sql = "SELECT title,description FROM events e WHERE e.id like ?";
 
-                  if($stmt = mysqli_prepare($db, $sql)){
-                      // Bind variables to the prepared statement as parameters
-                      mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+                if($stmt = mysqli_prepare($db, $sql)){
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
 
-                      // Attempt to execute the prepared statement
-                      if(mysqli_stmt_execute($stmt)){
-                          mysqli_stmt_bind_result($stmt, $title, $description);
+                    // Attempt to execute the prepared statement
+                    if(mysqli_stmt_execute($stmt)){
+                        mysqli_stmt_bind_result($stmt, $title, $description);
 
-                          mysqli_stmt_fetch($stmt);
-                          echo '<h3 class="page-title">
-                          <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                            <i class="mdi mdi-home"></i>
-                          </span>';
-                          echo $title;
-                          echo '</h3>';
-                          echo "<i>".$description."</i>";
-                      } else{
-                          echo "Error";
-                      }
-                  }
-                  // Close statement
-                  mysqli_stmt_close($stmt);
-                }else{
-                  echo "Menu";
+                        mysqli_stmt_fetch($stmt);
+                        echo '<h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                          <i class="mdi mdi-home"></i>
+                        </span>';
+                        echo $title;
+                        echo '</h3>';
+                        echo "<i>".$description."</i>";
+                    } else{
+                        echo "Error";
+                    }
                 }
-
-                ?>
+                // Close statement
+                mysqli_stmt_close($stmt);
+              }else{
+                echo "Menu";
+              }
+              ?>
             </div>
             <div class="row">
               <div class="col-md-4 stretch-card grid-margin">
@@ -278,7 +276,34 @@ if(isset($_GET["id"])){
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Coût total <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">0</h2>
+                    <h2 class="mb-5">
+                      <?php
+                      if(isset($_GET["id"])){
+                        $sql = "SELECT somme FROM sum_event e WHERE e.id like ?";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+                            // Bind variables to the prepared statement as parameters
+                            mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+      
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $total);
+      
+                                mysqli_stmt_fetch($stmt);
+                                echo $total."€";
+                            } else{
+                                echo "?";
+                            }
+                        }
+                        if(!isset($total)){
+                          echo "0€";
+                        }
+                          
+                        // Close statement
+                        mysqli_stmt_close($stmt);
+                      }
+                      ?>
+                    </h2>
                     <h6 class="card-text">Increased by 60%</h6>
                   </div>
                 </div>
@@ -396,7 +421,7 @@ if(isset($_GET["id"])){
               <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Project Status</h4>
+                    <h4 class="card-title">Bilan des dépenses</h4>
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
