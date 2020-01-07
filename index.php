@@ -279,7 +279,7 @@ if(isset($_GET["id"])){
                     <h2 class="mb-5">
                       <?php
                       if(isset($_GET["id"])){
-                        $sql = "SELECT somme FROM sum_event e WHERE e.id like ?";
+                        $sql = "SELECT SUM(prix) FROM depenses d WHERE d.ide like ?";
 
                         if($stmt = mysqli_prepare($db, $sql)){
                             // Bind variables to the prepared statement as parameters
@@ -290,17 +290,41 @@ if(isset($_GET["id"])){
                                 mysqli_stmt_bind_result($stmt, $total);
       
                                 mysqli_stmt_fetch($stmt);
-                                echo $total."€";
+                                if($total!=""){
+                                  echo $total."€";
+                                }else{
+                                  echo "0€";
+                                }
                             } else{
                                 echo "?";
                             }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
                         }
-                        if(!isset($total)){
-                          echo "0€";
-                        }
-                          
-                        // Close statement
-                        mysqli_stmt_close($stmt);
+                        
+                      }else{
+                        $sql = "SELECT SUM(prix) FROM depenses d";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+      
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $total);
+      
+                                mysqli_stmt_fetch($stmt);
+                                if($total!=""){
+                                  echo $total."€";
+                                }else{
+                                  echo "0€";
+                                }
+                                
+                            } else{
+                                echo "?";
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }                     
+                        
                       }
                       ?>
                     </h2>
@@ -314,7 +338,59 @@ if(isset($_GET["id"])){
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Vos dépenses <i class="mdi mdi-currency-eur mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">0</h2>
+                    <h2 class="mb-5">
+                    <?php
+                      if(isset($_GET["id"])){
+                        $sql = "SELECT SUM(prix) FROM depenses d WHERE d.ide like ? and d.idu like ?";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+                            // Bind variables to the prepared statement as parameters
+                            mysqli_stmt_bind_param($stmt, "ii", $_GET["id"], $_SESSION["id"]);
+      
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $total);
+      
+                                mysqli_stmt_fetch($stmt);
+                                if($total!=""){
+                                  echo $total."€";
+                                }else{
+                                  echo "0€";
+                                }
+                            } else{
+                                echo "?";
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }
+                        
+                      }else{
+                        $sql = "SELECT SUM(prix) FROM depenses d WHERE d.idu like ?";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+      
+                            mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $total);
+      
+                                mysqli_stmt_fetch($stmt);
+                                if($total!=""){
+                                  echo $total."€";
+                                }else{
+                                  echo "0€";
+                                }
+                                
+                            } else{
+                                echo "?";
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }                     
+                        
+                      }
+                      ?>
+                    </h2>
                     <h6 class="card-text">Decreased by 10%</h6>
                   </div>
                 </div>
