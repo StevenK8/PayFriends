@@ -13,11 +13,33 @@ require_once "../../config.php";
 
 // Define variables and initialize with empty values
 $title = $description = "";
-$title_err = $description_err = $event_success = $event_error = "";
+$title_err = $description_err = $event_success = $event_err = $recaptcha_err = "";
 
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+  # Verify captcha
+  $post_data = http_build_query(
+    array(
+        'secret' => "",
+        'response' => $_POST['g-recaptcha-response'],
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    )
+  );
+  $opts = array('http' =>
+    array(
+        'method'  => 'POST',
+        'header'  => 'Content-type: application/x-www-form-urlencoded',
+        'content' => $post_data
+    )
+  );
+  $context  = stream_context_create($opts);
+  $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
+  $result = json_decode($response);
+  if (!$result->success) {
+    $recaptcha_err = "Veuillez valider le recaptcha.";
+  }
 
   // Validate title
   if(empty(trim($_POST["title"]))){
@@ -107,18 +129,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
   // Check input errors before inserting in database
-  if(empty($title_err) && empty($description_err)){
+  if(empty($title_err) && empty($description_err) && empty($recaptcha_err)){
 
       // Prepare an insert statement
-      $sql = "INSERT INTO events (title, description, token) VALUES (?, ?, ?)";
+      $sql = "INSERT INTO events (idu, title, description, token) VALUES (?, ?, ?, ?)";
 
       if($stmt = mysqli_prepare($db, $sql)){
           // Bind variables to the prepared statement as parameters
-          mysqli_stmt_bind_param($stmt, "sss", $title, $description, $token);
+          mysqli_stmt_bind_param($stmt, "isss", $_SESSION["id"], $title, $description, $token);
 
           // Attempt to execute the prepared statement
           if(!mysqli_stmt_execute($stmt)){
-            $event_error = "L'événement ".$title." n'a pas pu être ajouté";
+            $event_err = "L'événement ".$title." n'a pas pu être ajouté";
           }else{
             $event_success = "L'événement ".$title." a été créé avec succès!";
             $ide = getId($db, $token);
@@ -164,34 +186,30 @@ function getId($db, $token){
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Payfriends</title>
-    <!-- plugins:css -->
+
     <link rel="stylesheet" href="../../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../../assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="../../assets/css/style.css">
-    <!-- End layout styles -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="../../assets/images/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/icons/favicon-16x16.png">
     <link rel="manifest" href="../../assets/images/icons/site.webmanifest">
     <link rel="mask-icon" href="../../assets/images/icons/safari-pinned-tab.svg" color="#9a55ff">
     <link rel="shortcut icon" href="../../assets/images/icons/favicon.ico">
+
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="msapplication-config" content="../../assets/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <div class="container-scroller">
-      <!-- partial:../../partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
           <a class="navbar-brand brand-logo" id="websiteName" href="../../index.php">PayFriends</a>
@@ -361,18 +379,23 @@ function getId($db, $token){
                     <form class="forms-sample" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                       <div class="form-group">
                         <label for="title" >Titre</label>
-                        <input type="text" class="form-control form-control-lg <?php echo (!empty($title_err)) ? 'is-invalid help-block' : ''; ?>" id="title" name="title" placeholder="Titre" required>
+                        <input type="text" value="<?php echo !empty($_POST['title'])?$_POST['title']:''; ?>" class="form-control form-control-lg <?php echo (!empty($title_err)) ? 'is-invalid help-block' : ''; ?>" id="title" name="title" placeholder="Titre" required>
                         <span class="invalid-feedback text-danger"><?php echo $title_err; ?></span>
                       </div>
                       <div class="form-group">
                         <label for="description" >Description</label>
-                        <textarea rows="4" cols="10" class="form-control form-control-lg <?php echo (!empty($description_err)) ? 'is-invalid help-block' : ''; ?>" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
+                        <textarea rows="4" cols="10" value="<?php echo !empty($_POST['description'])?$_POST['description']:''; ?>" class="form-control form-control-lg <?php echo (!empty($description_err)) ? 'is-invalid help-block' : ''; ?>" id="description" placeholder="Description" maxlength="100" name="description" required></textarea>
                         <span class="invalid-feedback text-danger"><?php echo $description_err; ?></span>
                       </div>
+                      <div class="g-recaptcha" data-sitekey=""></div>
+                      <br/>
                       <button type="submit" class="btn btn-gradient-primary mr-2">Valider</button>
                       <button class="btn btn-light">Annuler</button>
+                      <br/>
+                      <br/>
+                      <span class="text-danger"><?php echo $recaptcha_err; ?></span>
                       <span class="valid-feedback text-success block"><?php echo $event_success; ?></span>
-                      <span class="invalid-feedback text-danger block"><?php echo $event_error; ?></span>
+                      <span class="invalid-feedback text-danger block"><?php echo $event_err; ?></span>
                     </form>
                   </div>
                 </div>
