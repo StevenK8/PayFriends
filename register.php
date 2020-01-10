@@ -20,8 +20,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Validate username
     if(empty(trim($_POST["username"]))){
-        $username_err = "Veuillez rentrer un nom d'utilisateur.";
-    } else{
+      $username_err = "Veuillez rentrer un nom d'utilisateur.";
+    }else if(preg_match('/[^a-z_]/i', trim($_POST["username"]))){
+      $username_err = "Votre nom d'utilisateur ne peut contenir que des lettres ou '_'.";
+    }else if(strlen(trim($_POST["username"])) > 20){
+      $username_err = "Votre nom d'utilisateur ne doit pas dépasser 20 caractères";
+    }else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
         
