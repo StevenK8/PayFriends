@@ -1,5 +1,5 @@
 <?php
-   define('DB_SERVER', 'ryzen.ddns.net:3306');
+   define('DB_SERVER', 'stevenkerautret.com:3306');
    define('DB_USERNAME', 'payfriends-remote');
    define('DB_PASSWORD', 'PayFriendsPayFriends2019;');
    define('DB_DATABASE', 'payfriends');
@@ -7,6 +7,6 @@
 
 
    if($db === false){
-    die("ERROR: Could not connect. " . mysqli_connect_error());
+    die("ERROR: Connexion à la DB impossible. " . mysqli_connect_error());
 }
 ?>
