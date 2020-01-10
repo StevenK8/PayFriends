@@ -13,10 +13,32 @@ require_once "config.php";
  
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username_err = $password_err = $confirm_password_err = $recaptcha_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+
+    # Verify captcha
+    $post_data = http_build_query(
+      array(
+          'secret' => "6LfUH80UAAAAAJ_edLwJrxIwcjHdENsrHSHUsYBz",
+          'response' => $_POST['g-recaptcha-response'],
+          'remoteip' => $_SERVER['REMOTE_ADDR']
+      )
+    );
+    $opts = array('http' =>
+      array(
+          'method'  => 'POST',
+          'header'  => 'Content-type: application/x-www-form-urlencoded',
+          'content' => $post_data
+      )
+    );
+    $context  = stream_context_create($opts);
+    $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
+    $result = json_decode($response);
+    if (!$result->success) {
+      $recaptcha_err = "Veuillez valider le recaptcha.";
+    }
  
     // Validate username
     if(empty(trim($_POST["username"]))){
@@ -75,7 +97,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($recaptcha_err)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -138,6 +160,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <div class="container-scroller">
@@ -165,6 +189,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <input type="password" class="form-control form-control-lg" id="passwordConfirm" name="confirm_password" placeholder="Confirmer le mot de passe" required>
                     <span class=" text-danger"><?php echo $confirm_password_err; ?></span>
                   </div>
+                  <div class="form-group">
+                    <div class="g-recaptcha form-group" data-sitekey="6LfUH80UAAAAACi_IoO0wGnAiIzRVkHpvOuGJadV"></div>
+                    <span class="text-danger"><?php echo $recaptcha_err; ?></span>
+                  </div>
+
                   <div class="mt-3">
                     <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" type="submit">CRÉER UN COMPTE</button>
                   </div>
