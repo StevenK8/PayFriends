@@ -79,8 +79,11 @@ if(isset($_GET["redirect"])){
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-success btn-fw">Accepter</button>
-                <button type="button" class="btn btn-outline-danger btn-fw" data-dismiss="modal">Refuser</button>
+                <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+                  <input type="submit" class="btn btn-outline-success btn-fw" value="Accepter"></button>
+                  <input type="hidden" name="token" value="'.$_GET["redirect"].'" />
+                  <button type="button" class="btn btn-outline-danger btn-fw" data-dismiss="modal">Refuser</button>
+                </form>
               </div>
             </div>
           </div>
@@ -95,6 +98,80 @@ if(isset($_GET["redirect"])){
 
 }
 
+function addUser($db,$ide,$idu){
+  if(!isAlreadyIn($db,$ide,$idu)){
+    $sql = "INSERT INTO `members` (`ide`, `idu`) VALUES ( ? ,  ? )";
+
+    if($stmt = mysqli_prepare($db, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+  
+        // Attempt to execute the prepared statement
+        if(!mysqli_stmt_execute($stmt)){
+            echo "Error: " . $sql . "<br>" . mysqli_error($db);
+        }
+    }
+    mysqli_stmt_close($stmt);
+  }
+}
+
+function isAlreadyIn($db,$ide,$idu){
+  $sql = "SELECT ide,idu FROM members WHERE ide = ? AND idu = ?";
+  
+    if($stmt = mysqli_prepare($db, $sql)){
+      // Bind variables to the prepared statement as parameters
+      mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+  
+      // Attempt to execute the prepared statement
+      if(mysqli_stmt_execute($stmt)){
+          // Store result
+          mysqli_stmt_store_result($stmt);
+  
+          // Check si l'user est membre de l'evenement
+          if(mysqli_stmt_num_rows($stmt) == 1){
+              // Close statement
+             mysqli_stmt_close($stmt);
+            return true;
+          }else{
+            // Close statement
+            mysqli_stmt_close($stmt);
+            return false;
+          }
+      }
+    }
+
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  $sql = "SELECT id FROM events WHERE token = ?";
+
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "s", $_POST["token"]);
+
+    // Attempt to execute the prepared statement
+    if(mysqli_stmt_execute($stmt)){
+        // Store result
+        mysqli_stmt_store_result($stmt);
+
+        // Check si l'user est membre de l'evenement
+        if(mysqli_stmt_num_rows($stmt) != 1){
+          mysqli_stmt_close($stmt);
+          header("location: index.php");
+        }else{
+          mysqli_stmt_bind_result($stmt, $ide);
+
+          /* fetch values */
+          mysqli_stmt_fetch($stmt);
+
+          addUser($db,$ide,$_SESSION["id"]);
+        }
+    }
+    // Close statement
+    mysqli_stmt_close($stmt);
+  }
+  
+}
 
 ?>
 
@@ -639,10 +716,39 @@ if(isset($_GET["redirect"])){
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Ajout participants</h4><br>
+                    ';
+                    
+                    $sql = "SELECT token FROM events WHERE id = ?";
+
+                    if($stmt = mysqli_prepare($db, $sql)){
+                      // Bind variables to the prepared statement as parameters
+                      mysqli_stmt_bind_param($stmt, "i", intval($_GET["id"]));
+                  
+                      // Attempt to execute the prepared statement
+                      if(mysqli_stmt_execute($stmt)){
+                          // Store result
+                          mysqli_stmt_bind_result($stmt, $tokenEvent);
+
+                          /* fetch values */
+                          mysqli_stmt_fetch($stmt);
+                      }
+                      // Close statement
+                      mysqli_stmt_close($stmt);
+                    }
+                    
+                    echo '
                     <div class="add-items d-flex">
                       <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
                       <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-user"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
                    </div>
+
+                   <div class="input-group">
+                   <input type="text" id="tokenURL" class="form-control" value="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenEvent.'">
+                   <div class="input-group-append">
+                     <button class="btn btn-sm btn-gradient-primary" onclick="copy()" type="button">Copier</button>
+                   </div>
+                 </div>
+
                    <span id="confirm-invite" class="text-success block"></span>
                   </div>
                 </div>
@@ -651,6 +757,22 @@ if(isset($_GET["redirect"])){
           </div>';
             }
               ?>
+
+              <script>
+                function copy() {
+                  /* Get the text field */
+                  var copyText = document.getElementById("tokenURL");
+
+                  /* Select the text field */
+                  copyText.select();
+                  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+                  /* Copy the text inside the text field */
+                  document.execCommand("copy");
+
+}
+              </script>
+        
 
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
