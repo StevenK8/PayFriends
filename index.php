@@ -4,8 +4,14 @@ session_start();
 
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+  if(isset($_GET["redirect"])){
+    header("location: login.php?redirect=".$_GET["redirect"]);
+    exit;
+  }else{
     header("location: login.php");
     exit;
+  }
+    
 }
 
 // Include config file
@@ -56,24 +62,25 @@ if(isset($_GET["redirect"])){
           /* fetch values */
           mysqli_stmt_fetch($stmt);
 
-          echo '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#invitation">Open invitation</button>';
+          #echo '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#invitation">Open invitation</button>';
 
-          echo '<div id="invitation" class="modal fade" role="dialog" aria-labelledby="acceptInvitation">
-          <div class="modal-dialog">
+          echo '<div id="invitation" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="titleInvitation" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Invitation à '.$title.'</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 id="titleInvitation" class="modal-title">Invitation à '.$title.'</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
 
               <div class="modal-body">
                 <p>'.$description.'</p>
-                <button type="button" class="btn btn-outline-success btn-fw">Accepter</button>
-                <button type="button" class="btn btn-outline-danger btn-fw">Refuser</button>
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-outline-success btn-fw">Accepter</button>
+                <button type="button" class="btn btn-outline-danger btn-fw" data-dismiss="modal">Refuser</button>
               </div>
             </div>
           </div>
