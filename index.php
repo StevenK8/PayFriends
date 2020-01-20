@@ -112,6 +112,7 @@ function addUser($db,$ide,$idu){
         }
     }
     mysqli_stmt_close($stmt);
+    header("location: index.php?id=".$ide);
   }
 }
 
