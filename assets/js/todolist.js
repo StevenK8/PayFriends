@@ -47,7 +47,7 @@ function getXMLHttpRequest() {
         var xhr = getXMLHttpRequest();
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("add-user").innerHTML = this.responseText;
+                document.getElementById("confirm-invite").innerHTML = "Invitation envoyée!";
             }
         };
         xhr.open("GET","ajoutMembre.php?username="+item+"&ide="+$_GET('id'),true);
