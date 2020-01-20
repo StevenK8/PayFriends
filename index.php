@@ -581,8 +581,9 @@ if(isset($_GET["id"])){
                     <h4 class="card-title">Ajout participants</h4><br>
                     <div class="add-items d-flex">
                       <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
-                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-task"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
-                    </div>
+                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-user"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
+                   </div>
+                   <span id="confirm-invite" class="text-success block"></span>
                   </div>
                 </div>
               </div>

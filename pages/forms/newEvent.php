@@ -151,10 +151,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             header("location: ../../index.php?id=$ide");
             exit;
           }
-
+        // Close statement
+        mysqli_stmt_close($stmt);
       }
-      // Close statement
-      mysqli_stmt_close($stmt);
      
   }
 
@@ -393,9 +392,9 @@ function getId($db, $token){
                       <button class="btn btn-light">Annuler</button>
                       <br/>
                       <br/>
-                      <span class="text-danger"><?php echo $recaptcha_err; ?></span>
-                      <span class="valid-feedback text-success block"><?php echo $event_success; ?></span>
-                      <span class="invalid-feedback text-danger block"><?php echo $event_err; ?></span>
+                      <span class="text-danger block"><?php echo $recaptcha_err; ?></span>
+                      <span class="text-success block"><?php echo $event_success; ?></span>
+                      <span class="text-danger block"><?php echo $event_err; ?></span>
                     </form>
                   </div>
                 </div>
