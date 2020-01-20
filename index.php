@@ -30,9 +30,62 @@ if(isset($_GET["id"])){
           header("location: index.php");
         }
     }
+    // Close statement
+    mysqli_stmt_close($stmt);
   }
-  // Close statement
-  mysqli_stmt_close($stmt);
+
+}
+
+if(isset($_GET["redirect"])){
+  $sql = "SELECT id,title,description FROM events, members WHERE token = ? AND ide not in (select ide from members WHERE idu like ?)";
+
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "si", $_GET["redirect"], $_SESSION["id"]);
+
+    // Attempt to execute the prepared statement
+    if(mysqli_stmt_execute($stmt)){
+
+        // Store result
+        mysqli_stmt_store_result($stmt);
+
+        // Check si l'user est membre de l'evenement
+        if(mysqli_stmt_num_rows($stmt) != 0){
+          mysqli_stmt_bind_result($stmt, $id, $title, $description);
+
+          /* fetch values */
+          mysqli_stmt_fetch($stmt);
+
+          echo '<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#invitation">Open invitation</button>';
+
+          echo '<div id="invitation" class="modal fade" role="dialog" aria-labelledby="acceptInvitation">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Invitation à '.$title.'</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <div class="modal-body">
+                <p>'.$description.'</p>
+                <button type="button" class="btn btn-outline-success btn-fw">Accepter</button>
+                <button type="button" class="btn btn-outline-danger btn-fw">Refuser</button>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+              </div>
+            </div>
+          </div>
+        </div>';
+        }else{
+          $_GET["redirect"] = "";
+        }
+    }
+    // Close statement
+    mysqli_stmt_close($stmt);
+  }
+
 }
 
 
