@@ -689,10 +689,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                               // Attempt to execute the prepared statement
                               if(mysqli_stmt_execute($stmt)){
-                                  mysqli_stmt_bind_result($stmt, $username, $prix);
+                                // Store result
+                                mysqli_stmt_store_result($stmt);
+                        
 
-                                  /* fetch values */
-                                  while (mysqli_stmt_fetch($stmt)) {
+                                mysqli_stmt_bind_result($stmt, $username, $prix);
+
+                                /* fetch values */
+                                while (mysqli_stmt_fetch($stmt)) {
+                                  if($username!=""){
                                     echo '<tr>
                                     <td>
                                       <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
@@ -704,7 +709,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <td> WD-12345 </td>
                                   </tr>';
                                   }
-                                  mysqli_stmt_fetch($stmt);
+                                }
+                                mysqli_stmt_fetch($stmt);
                               } else{
                                   echo mysqli_error($db);
                               }
@@ -721,20 +727,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                             // Attempt to execute the prepared statement
                             if(mysqli_stmt_execute($stmt)){
+
                                 mysqli_stmt_bind_result($stmt, $username);
 
                                 /* fetch values */
                                 while (mysqli_stmt_fetch($stmt)) {
-                                  echo '<tr>
-                                  <td>
-                                    <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
-                                  <td> 0€ </td>
-                                  <td>
-                                    <label class="badge badge-gradient-success">DONE</label>
-                                  </td>
-                                  <td> Dec 5, 2017 </td>
-                                  <td> WD-12345 </td>
-                                </tr>';
+                                  if($username!=""){
+                                    echo '<tr>
+                                    <td>
+                                      <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                    <td> 0€ </td>
+                                    <td>
+                                      <label class="badge badge-gradient-success">DONE</label>
+                                    </td>
+                                    <td> Dec 5, 2017 </td>
+                                    <td> WD-12345 </td>
+                                    </tr>';
+                                  }
                                 }
                                 mysqli_stmt_fetch($stmt);
                             } else{
