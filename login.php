@@ -4,8 +4,14 @@ session_start();
  
 // Si l'utilsateur est déjà connecté il est redirigé vers la page d'accueil
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+  if(isset($_GET["redirect"])){
+    header("location: index.php?redirect=".$_GET["redirect"]);
+    exit;
+  }else{
     header("location: index.php");
     exit;
+  }
+
 }
  
 // Include config file
@@ -66,7 +72,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirige vers la page d'accueil
-                            header("location: index.php");
+                            if(isset($_GET["redirect"])){
+                              header("location: index.php?redirect=".$_GET["redirect"]);
+                            }else{
+                              header("location: index.php");
+                            }
+                            
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "Le mot de passe entré est invalide.";
