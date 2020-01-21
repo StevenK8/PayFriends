@@ -59,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       $description = htmlspecialchars(trim($_POST["description"]));
   }
 
-  function randomURL($URLlength = 12) {
+  function randomURL($URLlength = 24) {
     $charray = array_merge(range('a','z'), range('0','9'));
     $max = count($charray) - 1;
     $url = "";
