@@ -17,6 +17,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 // Include config file
 require_once "config.php";
 
+$username_err = $username_success = "";
+
 if(isset($_GET["id"])){
   $sql = "SELECT ide,idu FROM members WHERE ide = ? AND idu = ?";
 
@@ -38,6 +40,37 @@ if(isset($_GET["id"])){
     }
     // Close statement
     mysqli_stmt_close($stmt);
+  }
+  if(isset($_GET["username"])){
+    if($_SERVER["REQUEST_METHOD"] == "GET"){
+      $sql = "SELECT id FROM users WHERE username = ?";
+    
+      if($stmt = mysqli_prepare($db, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "s", $_GET["username"]);
+    
+        // Attempt to execute the prepared statement
+        if(mysqli_stmt_execute($stmt)){
+            // Store result
+            mysqli_stmt_store_result($stmt);
+    
+            // Check si l'user est membre de l'evenement
+            if(mysqli_stmt_num_rows($stmt) != 1){
+              mysqli_stmt_close($stmt);
+              $username_err = "Cet utilisateur n'existe pas";
+            }else{
+              mysqli_stmt_bind_result($stmt, $idu);
+    
+              /* fetch values */
+              mysqli_stmt_fetch($stmt);
+    
+              addInvite($db,$_GET["id"],$idu);
+            }
+        }
+        // Close statement
+        mysqli_stmt_close($stmt);
+      }
+    }
   }
 
 }
@@ -80,9 +113,9 @@ if(isset($_GET["redirect"])){
 
               <div class="modal-footer">
                 <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-                  <input type="submit" class="btn btn-outline-success btn-fw" value="Accepter"></button>
+                  <button type="submit" name="accept" class="btn btn-outline-success btn-fw">Accepter</button>
                   <input type="hidden" name="token" value="'.$_GET["redirect"].'" />
-                  <button type="button" class="btn btn-outline-danger btn-fw" data-dismiss="modal">Refuser</button>
+                  <button type="submit" name="deny" class="btn btn-outline-danger btn-fw">Refuser</button>
                 </form>
               </div>
             </div>
@@ -109,6 +142,44 @@ function addUser($db,$ide,$idu){
         // Attempt to execute the prepared statement
         if(!mysqli_stmt_execute($stmt)){
             echo "Error: " . $sql . "<br>" . mysqli_error($db);
+        }else{
+          deleteInvite($db,$ide,$idu);
+        }
+    }
+    mysqli_stmt_close($stmt);
+    header("location: index.php?id=".$ide);
+  }
+}
+
+function deleteInvite($db,$ide,$idu){
+  $sql = "DELETE FROM invites WHERE ide = ? AND idu = ?";
+
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+
+    // Attempt to execute the prepared statement
+    if(!mysqli_stmt_execute($stmt)){
+        echo "Error: " . $sql . "<br>" . mysqli_error($db);
+    }
+  }
+  mysqli_stmt_close($stmt);
+  header("location: index.php");
+}
+
+function addInvite($db,$ide,$idu){
+  if(!isAlreadyIn($db,$ide,$idu)){
+    $sql = "INSERT INTO `invites` (`ide`, `idu`) VALUES ( ? ,  ? )";
+
+    if($stmt = mysqli_prepare($db, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+  
+        // Attempt to execute the prepared statement
+        if(!mysqli_stmt_execute($stmt)){
+            echo "Error: " . $sql . "<br>" . mysqli_error($db);
+        }else{
+          $username_success = "Invitation envoyée!";
         }
     }
     mysqli_stmt_close($stmt);
@@ -165,7 +236,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           /* fetch values */
           mysqli_stmt_fetch($stmt);
 
-          addUser($db,$ide,$_SESSION["id"]);
+          if(isset($_POST["accept"])){
+            addUser($db,$ide,$_SESSION["id"]);
+          }else if(isset($_POST["deny"])){
+            deleteInvite($db,$ide,$_SESSION["id"]);
+          }
+          
         }
     }
     // Close statement
@@ -741,10 +817,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     }
                     
                     echo '
-                    <div class="add-items d-flex">
-                      <input type="text" class="form-control todo-list-input" placeholder="Nom du compte">
-                      <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-user"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
-                   </div>
+                    <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="get">
+                      <div class="add-items d-flex">
+                        <input name="username" type="text" class="form-control todo-list-input" placeholder="Nom du compte">
+                        <input type="hidden" name="id" value="'.$_GET["id"].'" />
+                        <button type="submit" class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn add-btn-font-size" id="add-user"><i class="mdi mdi-account-plus mdi-22px float-right"></i></button>
+                      </div>
+                      <span class="text-danger"> '.$username_err.' </span>
+                      <span class="text-success"> '.$username_success.' </span>
+                    </form>
 
                    <div class="input-group">
                    <input type="text" id="tokenURL" class="form-control" value="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenEvent.'">
@@ -773,8 +854,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                   /* Copy the text inside the text field */
                   document.execCommand("copy");
-
-}
+                }
               </script>
         
 
