@@ -673,15 +673,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                         <th> Nom d\'utilisateur </th>
                                         <th> Somme totale </th>
                                         <th> Status </th>
-                                        <th> Last Update </th>
-                                        <th> Tracking ID </th>
+                                        <th> Date </th>
                                       </tr>
                                     </thead>
                                     <tbody>';
-                          //Get user events
-                          $sql = "SELECT username,SUM(d.prix) as prix FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ?";
 
-                          
+                          $sql = "SELECT username,SUM(d.prix) as prix,date FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ? GROUP BY username ORDER BY date ";
                           
                           if($stmt = mysqli_prepare($db, $sql)){
                               // Bind variables to the prepared statement as parameters
@@ -693,7 +690,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 mysqli_stmt_store_result($stmt);
                         
 
-                                mysqli_stmt_bind_result($stmt, $username, $prix);
+                                mysqli_stmt_bind_result($stmt, $username, $prix,$date);
 
                                 /* fetch values */
                                 while (mysqli_stmt_fetch($stmt)) {
@@ -705,8 +702,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <td>
                                       <label class="badge badge-gradient-success">DONE</label>
                                     </td>
-                                    <td> Dec 5, 2017 </td>
-                                    <td> WD-12345 </td>
+                                    <td> '.$date.' </td>
                                   </tr>';
                                   }
                                 }
@@ -740,8 +736,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                     <td>
                                       <label class="badge badge-gradient-success">DONE</label>
                                     </td>
-                                    <td> Dec 5, 2017 </td>
-                                    <td> WD-12345 </td>
+                                    <td> 0000-00-00 </td>
                                     </tr>';
                                   }
                                 }
