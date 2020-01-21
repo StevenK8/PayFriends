@@ -1,6 +1,11 @@
 (function($) {
   'use strict';
   $('#invitation').modal('show');
+
+  if($('[name^="notification"]').length>0){
+    $('#notificationDropdown').append('<span class="count-symbol bg-danger"></span>');
+  }
+
   $(function() {
     
     Chart.defaults.global.legend.labels.usePointStyle = true;
