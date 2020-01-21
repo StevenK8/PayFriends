@@ -320,14 +320,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <li class="nav-item dropdown">
               <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                 <i class="mdi mdi-bell-outline"></i>
-                <span class="count-symbol bg-danger"></span>
+                
               </a>
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                 <h6 class="p-3 mb-0">Notifications</h6>
                 <div class="dropdown-divider"></div>
                 <?php
                 $sql = "SELECT e.title,e.token FROM events e,invites i WHERE i.idu like ? AND i.ide like e.id";
-                
+                $i = 0;
                 if($stmt = mysqli_prepare($db, $sql)){
                   // Bind variables to the prepared statement as parameters
                   mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
@@ -339,8 +339,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                     /* fetch values */
                     while (mysqli_stmt_fetch($stmt)) {
+                      $i++;
                       echo '                
-                      <a class="dropdown-item preview-item" href="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenNotification.'">
+                      <a name="notification'.$i.'" class="dropdown-item preview-item" href="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenNotification.'">
                         <div class="preview-thumbnail">
                           <div class="preview-icon bg-success">
                             <i class="mdi mdi-calendar"></i>
@@ -358,10 +359,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                   // Close statement
                   mysqli_stmt_close($stmt);
                 }
+                if($i==0){
+                  echo '<a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                    <div class="preview-icon bg-info">
+                      <i class="mdi mdi-calendar-blank"></i>
+                    </div>
+                  </div>
+                  <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                    <h6 class="preview-subject font-weight-normal mb-1">Vous n\'avez pas de notifications</h6>
+                  </div>
+                </a>
+                <div class="dropdown-divider"></div>';
+                }
                 ?>
                 
-                <div class="dropdown-divider"></div>
-                <h6 class="p-3 mb-0 text-center">See all notifications</h6>
               </div>
             </li>
             <li class="nav-item nav-settings d-none d-lg-block">
