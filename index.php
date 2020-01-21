@@ -249,41 +249,41 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
                 <h6 class="p-3 mb-0">Notifications</h6>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-success">
-                      <i class="mdi mdi-calendar"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 class="preview-subject font-weight-normal mb-1">Event today</h6>
-                    <p class="text-gray ellipsis mb-0"> Just a reminder that you have an event today </p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-warning">
-                      <i class="mdi mdi-settings"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 class="preview-subject font-weight-normal mb-1">Settings</h6>
-                    <p class="text-gray ellipsis mb-0"> Update dashboard </p>
-                  </div>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item preview-item">
-                  <div class="preview-thumbnail">
-                    <div class="preview-icon bg-info">
-                      <i class="mdi mdi-link-variant"></i>
-                    </div>
-                  </div>
-                  <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
-                    <h6 class="preview-subject font-weight-normal mb-1">Launch Admin</h6>
-                    <p class="text-gray ellipsis mb-0"> New admin wow! </p>
-                  </div>
-                </a>
+                <?php
+                $sql = "SELECT e.title,e.token FROM events e,invites i WHERE i.idu like ? AND i.ide like e.id";
+                
+                if($stmt = mysqli_prepare($db, $sql)){
+                  // Bind variables to the prepared statement as parameters
+                  mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
+
+                  // Attempt to execute the prepared statement
+                  if(mysqli_stmt_execute($stmt)){
+                    
+                    mysqli_stmt_bind_result($stmt, $titleNotification, $tokenNotification);
+
+                    /* fetch values */
+                    while (mysqli_stmt_fetch($stmt)) {
+                      echo '                
+                      <a class="dropdown-item preview-item" href="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenNotification.'">
+                        <div class="preview-thumbnail">
+                          <div class="preview-icon bg-success">
+                            <i class="mdi mdi-calendar"></i>
+                          </div>
+                        </div>
+                        <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
+                          <h6 class="preview-subject font-weight-normal mb-1">'.$titleNotification.'</h6>
+                          <p class="text-gray ellipsis mb-0"> Vous avez été invité à cet événement </p>
+                        </div>
+                      </a>
+                      <div class="dropdown-divider"></div>';
+                    }
+                    mysqli_stmt_fetch($stmt);
+                  }
+                  // Close statement
+                  mysqli_stmt_close($stmt);
+                }
+                ?>
+                
                 <div class="dropdown-divider"></div>
                 <h6 class="p-3 mb-0 text-center">See all notifications</h6>
               </div>
@@ -391,7 +391,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         mysqli_stmt_fetch($stmt);
                         echo '<h3 class="page-title">
                         <span class="page-title-icon bg-gradient-primary text-white mr-2">
-                          <i class="mdi mdi-home"></i>
+                          <i class="mdi mdi-calendar"></i>
                         </span>';
                         echo $title;
                         echo '</h3>';
@@ -403,7 +403,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Close statement
                 mysqli_stmt_close($stmt);
               }else{
-                echo "Menu";
+                echo '<h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                  <i class="mdi mdi-home"></i>
+                </span>Menu</h3>';
               }
               ?>
             </div>
