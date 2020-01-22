@@ -816,80 +816,59 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Bilan des dépenses</h4>
-                    <div class="table-responsive">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th> # </th>
-                            <th> Name </th>
-                            <th> Due Date </th>
-                            <th> Progress </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td> 1 </td>
-                            <td> Herman Beck </td>
-                            <td> May 15, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td> 2 </td>
-                            <td> Messsy Adam </td>
-                            <td> Jul 01, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td> 3 </td>
-                            <td> John Richards </td>
-                            <td> Apr 12, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td> 4 </td>
-                            <td> Peter Meggik </td>
-                            <td> May 15, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td> 5 </td>
-                            <td> Edward </td>
-                            <td> May 03, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td> 5 </td>
-                            <td> Ronald </td>
-                            <td> Jun 05, 2015 </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+';
+
+                        $sql = "SELECT d.nom,username,d.date,d.prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? ORDER BY date desc";
+                          
+                          if($stmt = mysqli_prepare($db, $sql)){
+                              // Bind variables to the prepared statement as parameters
+                              mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+
+                              // Attempt to execute the prepared statement
+                              if(mysqli_stmt_execute($stmt)){
+                                // Store result
+                        
+                                mysqli_stmt_bind_result($stmt, $nom, $payeur, $date, $prix);
+
+                                echo '                                    
+                                <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th> Nom </th>
+                                      <th> Payé par </th>
+                                      <th> Date </th>
+                                      <th> Prix </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>';
+                                /* fetch values */
+                                while (mysqli_stmt_fetch($stmt)) {
+                                  if($nom!=""){
+                                    echo '
+                                        <tr>
+                                        <td class="text-info"> '.$nom.' </td>
+                                        <td class="font-weight-bold"> '.$payeur.' </td>
+                                        <td> '.$date.' </td>
+                                        <td class="text-info"> '.$prix.'€ </td>
+                                    ';
+                                  }
+                                }
+                                mysqli_stmt_fetch($stmt);
+                                echo '
+                                </tr>
+                                </tbody>
+                                </table>
+                              </div>';
+                              } else{
+                                echo mysqli_error($db);
+                              }
+                            // Close statement
+                            mysqli_stmt_close($stmt);
+                          }
+
+                        echo '
+
                   </div>
                 </div>
               </div>
