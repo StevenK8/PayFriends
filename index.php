@@ -629,7 +629,57 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Participants <i class="mdi mdi-account-multiple mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">95,5741</h2>
+                    <h2 class="mb-5">
+                    <?php
+                      if(isset($_GET["id"])){
+                        $sql = "SELECT COUNT(idu) FROM members WHERE ide like ?";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+                            // Bind variables to the prepared statement as parameters
+                            mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+      
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $nbParticipants);
+      
+                                mysqli_stmt_fetch($stmt);
+                                if($nbParticipants!=""){
+                                  echo $nbParticipants;
+                                }else{
+                                  echo "0";
+                                }
+                            } else{
+                                echo "?";
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }
+                        
+                      }else{
+                        $sql = "SELECT COUNT(DISTINCT idu) FROM members";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $nbParticipants);
+      
+                                mysqli_stmt_fetch($stmt);
+                                if($total!=""){
+                                  echo $nbParticipants;
+                                }else{
+                                  echo "0";
+                                }
+                                
+                            } else{
+                                echo "?";
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }                     
+                        
+                      }
+                      ?>
+                    </h2>
                     <h6 class="card-text">Increased by 5%</h6>
                   </div>
                 </div>
