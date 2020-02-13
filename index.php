@@ -404,19 +404,19 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item <?php echo isset($_GET["id"])?"":"active" ?>">
               <a class="nav-link" href="index.php">
                 <span class="menu-title">Menu principal</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <li class="nav-item <?php echo isset($_GET["id"])?"active":"" ?>">
+              <a class="<?php echo isset($_GET["id"])?"nav-link":"nav-link collapsed" ?>" data-toggle="collapse" href="#ui-basic" aria-expanded="<?php echo isset($_GET["id"])?"true":"false" ?>" aria-controls="ui-basic">
                 <span class="menu-title">Événements</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi mdi-calendar-multiple-check menu-icon"></i>
               </a>
-              <div class="collapse" id="ui-basic">
+              <div class="collapse <?php echo isset($_GET["id"])?"show":"" ?>" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                   <?php
                   //Get user events
@@ -432,7 +432,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                           /* fetch values */
                           while (mysqli_stmt_fetch($stmt)) {
-                            echo '<li class="nav-item" id="'.$id.'"> <a class="nav-link" href="index.php?id='.$id.'">'.$title.'</a></li>';
+                            echo '<li class="nav-item" id="'.$id.'"> <a class="nav-link ';
+                            if(isset($_GET["id"])){
+                              echo (($_GET["id"]==$id)?"active":"");
+                            } 
+                            echo '" href="index.php?id='.$id.'">'.$title.'</a></li>';
                           }
                           mysqli_stmt_fetch($stmt);
                       } else{

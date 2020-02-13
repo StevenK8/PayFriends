@@ -331,13 +331,13 @@ function getId($db, $token){
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../../index.php">
-                <span class="menu-title">Dashboard</span>
+                <span class="menu-title">Menu principal</span>
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                <span class="menu-title">Evenements</span>
+                <span class="menu-title">Événements</span>
                 <i class="menu-arrow"></i>
                 <i class="mdi mdi mdi-calendar-multiple-check menu-icon"></i>
               </a>
@@ -381,7 +381,7 @@ function getId($db, $token){
               <h3 class="menu-title"> Nouvel évènement  </h3>
             </div>
             <div class="row">
-              <div class="col-md-6 grid-margin stretch-card">
+              <div class="col-md grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">Formulaire</h4>
@@ -406,67 +406,6 @@ function getId($db, $token){
                       <span class="text-danger block"><?php echo $recaptcha_err; ?></span>
                       <span class="text-success block"><?php echo $event_success; ?></span>
                       <span class="text-danger block"><?php echo $event_err; ?></span>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="card-title">Tableau participants</h4>
-                    <p class="card-description"> Liste des participants </p>
-                    <form class="forms-sample">
-                      <div class="form-group row">
-                        <label for="title" class="col-sm-3 col-form-label">Nom</label>
-                        <div class="col-sm-9">
-                          <input type="text" class="form-control" name="name" placeholder="Nom">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="description" class="col-sm-3 col-form-label">Prénom</label>
-                        <div class="col-sm-9">
-                          <input type="textarea" class="form-control" name="firstname" placeholder="Prénom">
-                        </div>
-                      </div>
-                      <button type="submit" class="btn btn-gradient-primary mr-2">Ajouter</button>
-                    </form>
-                    <form class="forms-sample">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Nom</th>
-                            <th>Prenom</th>
-                            <th>Situation</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Jacob</td>
-                            <td>53275531</td>
-                            <td><label class="badge badge-danger">Nope</label></td>
-                          </tr>
-                          <tr>
-                            <td>Messsy</td>
-                            <td>53275532</td>
-                            <td><label class="badge badge-warning">En cours</label></td>
-                          </tr>
-                          <tr>
-                            <td>John</td>
-                            <td>53275533</td>
-                            <td><label class="badge badge-success">Ajouté</label></td>
-                          </tr>
-                          <tr>
-                            <td>Peter</td>
-                            <td>53275534</td>
-                            <td><label class="badge badge-success">Ajouté</label></td>
-                          </tr>
-                          <tr>
-                            <td>Dave</td>
-                            <td>53275535</td>
-                            <td><label class="badge badge-warning">En cours</label></td>
-                          </tr>
-                        </tbody>
-                      </table>
                     </form>
                   </div>
                 </div>
