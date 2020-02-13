@@ -1,5 +1,5 @@
 <?php
-   define('DB_SERVER', 'raspberrypi3.ddns.net:3306');
+   define('DB_SERVER', 'ryzen.ddns.net:3306');
    define('DB_USERNAME', 'payfriends-remote');
    define('DB_PASSWORD', 'PayFriendsPayFriends2019;');
    define('DB_DATABASE', 'payfriends');
