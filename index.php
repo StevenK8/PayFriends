@@ -819,7 +819,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <div class="col-md-7 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Bilan des dépenses</h4>
+                    <h4 class="card-title" style="float: left;">Bilan des dépenses</h4>
+                    <button type="submit" class="add btn btn-icon btn-gradient-primary font-weight-bold add-btn-font-size" id="add-depense" style="
+    float: right;
+"><i class="mdi mdi-cart-plus mdi-22px"></i></button>
 ';
 
                         $sql = "SELECT d.nom,username,d.date,d.prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? ORDER BY date desc";
@@ -914,7 +917,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                    <div class="input-group">
                    <input type="text" id="tokenURL" class="form-control" value="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenEvent.'">
                    <div class="input-group-append">
-                     <button class="btn btn-sm btn-gradient-primary" onclick="copy()" type="button">Copier</button>
+                     <button class="btn btn-sm btn-gradient-info" onclick="copy()" type="button">Copier</button>
                    </div>
                  </div>
 
