@@ -281,6 +281,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="theme-color" content="#ffffff">
   </head>
   <body>
+    <div id="depense" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="titleInvitation" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="titleInvitation" class="modal-title">Invitation à '.$title.'</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <p>'.$description.'</p>
+          </div>
+
+          <div class="modal-footer">
+            <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
+              <button type="submit" name="accept" class="btn btn-outline-success btn-fw">Accepter</button>
+              <input type="hidden" name="token" value="'.$_GET["redirect"].'" />
+              <button type="submit" name="deny" class="btn btn-outline-danger btn-fw">Refuser</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
