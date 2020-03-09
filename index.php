@@ -281,25 +281,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta name="theme-color" content="#ffffff">
   </head>
   <body>
-    <div id="depense" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="titleInvitation" aria-hidden="true">
+    <div id="depense" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="titleDepense" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 id="titleInvitation" class="modal-title">Invitation à '.$title.'</h5>
+            <h5 id="titleDepense" class="modal-title">Nouvelle dépense</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            <p>'.$description.'</p>
+            <p>Veuillez renseigner le nom et le prix de la dépense à ajouter.</p>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
+              <div class="form-group">
+                <input type="text" class="form-control" id="nomDepense" placeholder="Nom">
+                <div class="input-group">
+                    <input type="text" class="form-control" aria-label="Prix" placeholder="Prix">
+                    <div class="input-group-append">
+                      <span class="input-group-text bg-gradient-primary text-white">€</span>
+                    </div>
+                  </div>
+              </div>
           </div>
 
           <div class="modal-footer">
-            <form action="'.htmlspecialchars($_SERVER["PHP_SELF"]).'" method="post">
-              <button type="submit" name="accept" class="btn btn-outline-success btn-fw">Accepter</button>
-              <input type="hidden" name="token" value="'.$_GET["redirect"].'" />
-              <button type="submit" name="deny" class="btn btn-outline-danger btn-fw">Refuser</button>
+            
+              <button type="submit" name="add" class="btn btn-gradient-primary btn-fw">Ajouter</button>
             </form>
           </div>
         </div>
@@ -845,10 +853,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title" style="float: left;">Bilan des dépenses</h4>
-                    <button type="submit" class="add btn btn-icon btn-gradient-primary font-weight-bold add-btn-font-size" id="add-depense" style="
-    float: right;
-"><i class="mdi mdi-cart-plus mdi-22px"></i></button>
-';
+                    <button class="add btn btn-icon btn-gradient-primary font-weight-bold add-btn-font-size depense-add-btn" id="add-depense" style="float: right;
+                    "><i class="mdi mdi-cart-plus mdi-22px"></i></button>';
 
                         $sql = "SELECT d.nom,username,d.date,d.prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? ORDER BY date desc";
                           
@@ -998,7 +1004,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
-    <script src="assets/js/todolist.js"></script>
+    <script src="assets/js/add-depense.js"></script>
     <!-- End custom js for this page -->
   </body>
 </html>
