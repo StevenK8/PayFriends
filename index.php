@@ -565,6 +565,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h2 class="mb-5">
                       <?php
                       if(isset($_GET["id"])){
+                        $sql = "SELECT COUNT(idu) FROM members WHERE ide like ?";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+                            // Bind variables to the prepared statement as parameters
+                            mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+      
+                            // Attempt to execute the prepared statement
+                            if(mysqli_stmt_execute($stmt)){
+                                mysqli_stmt_bind_result($stmt, $nbParticipants);
+      
+                                mysqli_stmt_fetch($stmt);
+                            }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        }
+
                         $sql = "SELECT SUM(prix) FROM depenses d WHERE d.ide like ?";
 
                         if($stmt = mysqli_prepare($db, $sql)){
@@ -589,6 +605,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         }
                         
                       }else{
+                        $sql = "SELECT COUNT(DISTINCT idu) FROM members";
+
+                        if($stmt = mysqli_prepare($db, $sql)){
+
+                          if(mysqli_stmt_execute($stmt)){
+                            mysqli_stmt_bind_result($stmt, $nbParticipants);
+                            mysqli_stmt_fetch($stmt); 
+                          }else{
+                            echo "?";
+                          }
+                          // Close statement
+                          mysqli_stmt_close($stmt);
+                        } 
+                        
                         $sql = "SELECT SUM(prix) FROM depenses d";
 
                         if($stmt = mysqli_prepare($db, $sql)){
@@ -614,7 +644,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       }
                       ?>
                     </h2>
-                    <h6 class="card-text">Increased by 60%</h6>
+                    <h6 class="card-text">
+                    <?php
+                      if($total!=0){
+                        echo "Soit ".intval($total / $nbParticipants)."€ par personne";
+                      }else{
+                        echo "Zé-ro!";
+                      }
+                    ?>
+
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -635,11 +674,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       
                             // Attempt to execute the prepared statement
                             if(mysqli_stmt_execute($stmt)){
-                                mysqli_stmt_bind_result($stmt, $total);
+                                mysqli_stmt_bind_result($stmt, $total_user);
       
                                 mysqli_stmt_fetch($stmt);
-                                if($total!=""){
-                                  echo $total."€";
+                                if($total_user!=""){
+                                  echo $total_user."€";
                                 }else{
                                   echo "0€";
                                 }
@@ -655,21 +694,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                         if($stmt = mysqli_prepare($db, $sql)){
       
-                            mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
-                            // Attempt to execute the prepared statement
-                            if(mysqli_stmt_execute($stmt)){
-                                mysqli_stmt_bind_result($stmt, $total);
-      
-                                mysqli_stmt_fetch($stmt);
-                                if($total!=""){
-                                  echo $total."€";
-                                }else{
-                                  echo "0€";
-                                }
-                                
-                            } else{
-                                echo "?";
-                            }
+                          mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
+                          // Attempt to execute the prepared statement
+                          if(mysqli_stmt_execute($stmt)){
+                              mysqli_stmt_bind_result($stmt, $total_user);
+    
+                              mysqli_stmt_fetch($stmt);
+                              if($total_user!=""){
+                                echo $total_user."€";
+                              }else{
+                                echo "0€";
+                              }
+                              
+                          } else{
+                              echo "?";
+                          }
                           // Close statement
                           mysqli_stmt_close($stmt);
                         }                     
@@ -677,7 +716,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       }
                       ?>
                     </h2>
-                    <h6 class="card-text">Decreased by 10%</h6>
+                    <h6 class="card-text">
+                    <?php
+                      if($total!=0){
+                        $pourcentage = ($total_user/$total)*100;
+                        echo "Soit ".intval($pourcentage)."% du total";
+                      }else{
+                        echo "Zé-ro!";
+                      }
+                    ?>
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -690,55 +738,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <h2 class="mb-5">
                     <?php
                       if(isset($_GET["id"])){
-                        $sql = "SELECT COUNT(idu) FROM members WHERE ide like ?";
-
-                        if($stmt = mysqli_prepare($db, $sql)){
-                            // Bind variables to the prepared statement as parameters
-                            mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-      
-                            // Attempt to execute the prepared statement
-                            if(mysqli_stmt_execute($stmt)){
-                                mysqli_stmt_bind_result($stmt, $nbParticipants);
-      
-                                mysqli_stmt_fetch($stmt);
-                                if($nbParticipants!=""){
-                                  echo $nbParticipants;
-                                }else{
-                                  echo "0";
-                                }
-                            } else{
-                                echo "?";
-                            }
-                          // Close statement
-                          mysqli_stmt_close($stmt);
+                        if($nbParticipants!=""){
+                          echo $nbParticipants;
+                        }else{
+                          echo "0";
                         }
-                        
                       }else{
-                        $sql = "SELECT COUNT(DISTINCT idu) FROM members";
-
-                        if($stmt = mysqli_prepare($db, $sql)){
-
-                            if(mysqli_stmt_execute($stmt)){
-                                mysqli_stmt_bind_result($stmt, $nbParticipants);
-      
-                                mysqli_stmt_fetch($stmt);
-                                if($total!=""){
-                                  echo $nbParticipants;
-                                }else{
-                                  echo "0";
-                                }
-                                
-                            } else{
-                                echo "?";
-                            }
-                          // Close statement
-                          mysqli_stmt_close($stmt);
-                        }                     
-                        
+                        if($total!=""){
+                          echo $nbParticipants;
+                        }else{
+                          echo "0";
+                        }
                       }
-                      ?>
+                    ?>
                     </h2>
-                    <h6 class="card-text">Increased by 5%</h6>
+                    <h6 class="card-text" name="nbParticipants" value="<?php echo $nbParticipants ?>">Increased by 5%</h6>
                   </div>
                 </div>
               </div>
@@ -748,7 +762,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <div class="card">
                   <div class="card-body">
                     <div class="clearfix">
-                      <h4 class="card-title float-left">Visit And Sales Statistics</h4>
+                      <h4 class="card-title float-left">Statistiques des dépenses</h4>
                       <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
                     </div>
                     <canvas id="visit-sale-chart" class="mt-4"></canvas>
@@ -758,7 +772,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Traffic Sources</h4>
+                    <h4 class="card-title">Participations au budget</h4>
                     <canvas id="traffic-chart"></canvas>
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                   </div>
