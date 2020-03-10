@@ -11,7 +11,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
   }
-    
 }
 
 // Include config file
@@ -72,7 +71,6 @@ if(isset($_GET["id"])){
       }
     }
   }
-
 }
 
 if(isset($_GET["redirect"])){
@@ -190,64 +188,88 @@ function addInvite($db,$ide,$idu){
 function isAlreadyIn($db,$ide,$idu){
   $sql = "SELECT ide,idu FROM members WHERE ide = ? AND idu = ?";
   
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+
+    // Attempt to execute the prepared statement
+    if(mysqli_stmt_execute($stmt)){
+      // Store result
+      mysqli_stmt_store_result($stmt);
+
+      // Check si l'user est membre de l'evenement
+      if(mysqli_stmt_num_rows($stmt) == 1){
+        // Close statement
+        mysqli_stmt_close($stmt);
+        return true;
+      }else{
+        // Close statement
+        mysqli_stmt_close($stmt);
+        return false;
+      }
+    }
+  }
+}
+
+function addDepense($db,$ide,$idu,$nom,$prix,$date){
+  if(isAlreadyIn($db,$ide,$idu)){
+    $sql = "INSERT INTO `depenses` (`ide`, `idu`, `nom`, `prix` , `date`) VALUES ( ? ,  ? ,  ? ,  ? ,  ? )";
+
+    if($stmt = mysqli_prepare($db, $sql)){
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "iisds", intval($ide), intval($idu), $nom, floatval($prix), $date);
+
+        // Attempt to execute the prepared statement
+        if(!mysqli_stmt_execute($stmt)){
+            echo "Error: " . $sql . "<br>" . mysqli_error($db);
+        }else{
+          $depense_success = "Dépense créée!";
+        }
+    }
+    mysqli_stmt_close($stmt);
+    header("location: index.php?id=".$ide);
+  }
+}
+
+if(isset($_POST["nomDepense"]) && isset($_POST["prixDepense"]) && intval($_POST["prixDepense"])>0 && isset($_POST["id"])){
+  addDepense($db,$_POST["id"],$_SESSION["id"],htmlspecialchars($_POST["nomDepense"]),$_POST["prixDepense"], date("Y-m-d"));
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+  if(isset($_POST["token"])){
+    $sql = "SELECT id FROM events WHERE token = ?";
+
     if($stmt = mysqli_prepare($db, $sql)){
       // Bind variables to the prepared statement as parameters
-      mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
-  
+      mysqli_stmt_bind_param($stmt, "s", $_POST["token"]);
+
       // Attempt to execute the prepared statement
       if(mysqli_stmt_execute($stmt)){
           // Store result
           mysqli_stmt_store_result($stmt);
-  
+
           // Check si l'user est membre de l'evenement
-          if(mysqli_stmt_num_rows($stmt) == 1){
-              // Close statement
-             mysqli_stmt_close($stmt);
-            return true;
-          }else{
-            // Close statement
+          if(mysqli_stmt_num_rows($stmt) != 1){
             mysqli_stmt_close($stmt);
-            return false;
+            header("location: index.php");
+          }else{
+            mysqli_stmt_bind_result($stmt, $ide);
+
+            /* fetch values */
+            mysqli_stmt_fetch($stmt);
+
+            if(isset($_POST["accept"])){
+              addUser($db,$ide,$_SESSION["id"]); // On rejoint l'événement
+            }else if(isset($_POST["deny"])){
+              deleteInvite($db,$ide,$_SESSION["id"]); // On supprime l'invitation
+            }
+            
           }
       }
+      // Close statement
+      mysqli_stmt_close($stmt);
     }
-
-}
-
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  $sql = "SELECT id FROM events WHERE token = ?";
-
-  if($stmt = mysqli_prepare($db, $sql)){
-    // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($stmt, "s", $_POST["token"]);
-
-    // Attempt to execute the prepared statement
-    if(mysqli_stmt_execute($stmt)){
-        // Store result
-        mysqli_stmt_store_result($stmt);
-
-        // Check si l'user est membre de l'evenement
-        if(mysqli_stmt_num_rows($stmt) != 1){
-          mysqli_stmt_close($stmt);
-          header("location: index.php");
-        }else{
-          mysqli_stmt_bind_result($stmt, $ide);
-
-          /* fetch values */
-          mysqli_stmt_fetch($stmt);
-
-          if(isset($_POST["accept"])){
-            addUser($db,$ide,$_SESSION["id"]);
-          }else if(isset($_POST["deny"])){
-            deleteInvite($db,$ide,$_SESSION["id"]);
-          }
-          
-        }
-    }
-    // Close statement
-    mysqli_stmt_close($stmt);
   }
-  
 }
 
 ?>
@@ -295,19 +317,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p>Veuillez renseigner le nom et le prix de la dépense à ajouter.</p>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
               <div class="form-group">
-                <input type="text" class="form-control" id="nomDepense" placeholder="Nom">
+                <input type="text" class="form-control" id="nomDepense" placeholder="Nom" name="nomDepense">
                 <div class="input-group">
-                    <input type="text" class="form-control" aria-label="Prix" placeholder="Prix">
+                    <input type="number" class="form-control" min="1" aria-label="Prix" placeholder="Prix" name="prixDepense">
+                    <input type="hidden" name="id" value="<?php echo $_GET["id"] ?>" />
                     <div class="input-group-append">
                       <span class="input-group-text bg-gradient-primary text-white">€</span>
                     </div>
                   </div>
               </div>
           </div>
-
           <div class="modal-footer">
-            
-              <button type="submit" name="add" class="btn btn-gradient-primary btn-fw">Ajouter</button>
+              <button type="submit" class="btn btn-gradient-primary btn-fw">Ajouter</button>
             </form>
           </div>
         </div>
