@@ -13401,4 +13401,8 @@ a#websiteName {
   font-size: 1.2rem !important;
 }
 
+#table-depenses{
+  max-height: 160px;
+  overflow-y: auto;
+}
 /*# sourceMappingURL=style.css.map */

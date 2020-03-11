@@ -904,7 +904,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                 mysqli_stmt_bind_result($stmt, $nom, $payeur, $date, $prix);
 
                                 echo '                                    
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="table-depenses">
                                 <table class="table">
                                   <thead>
                                     <tr>
