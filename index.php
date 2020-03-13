@@ -840,76 +840,121 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                       </tr>
                                     </thead>
                                     <tbody>';
+                          $sql = "SELECT u.username, SUM(d.prix)/(COUNT(DISTINCT md.idu)+1) AS remboursement FROM depenses d, members_depense md, users u WHERE d.id like md.idd AND md.haspaid=0 AND md.idu = u.id AND d.ide like ? GROUP BY md.idu";
 
-                          $sql = "SELECT username,SUM(d.prix) as prix,date FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ? GROUP BY username ORDER BY date ";
-                          
-                          if($stmt = mysqli_prepare($db, $sql)){
-                              // Bind variables to the prepared statement as parameters
-                              mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
-
-                              // Attempt to execute the prepared statement
-                              if(mysqli_stmt_execute($stmt)){
-                                // Store result
-                                mysqli_stmt_store_result($stmt);
-                        
-
-                                mysqli_stmt_bind_result($stmt, $username, $prix,$date);
-
-                                /* fetch values */
-                                while (mysqli_stmt_fetch($stmt)) {
-                                  if($username!=""){
-                                    echo '<tr>
-                                    <td>
-                                      <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
-                                    <td> '.$prix.'€ </td>
-                                    <td>
-                                      <label class="badge badge-gradient-success">DONE</label>
-                                    </td>
-                                    <td> '.$date.' </td>
-                                  </tr>';
-                                  }
-                                }
-                                mysqli_stmt_fetch($stmt);
-                              } else{
-                                  echo mysqli_error($db);
-                              }
-                            // Close statement
-                            mysqli_stmt_close($stmt);
-                          }
-
-
-                          $sql = "SELECT username FROM members m, users u WHERE id like idu and ide = ? AND username not in (SELECT username as prix FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ?)";
-
-                          if($stmt = mysqli_prepare($db, $sql)){
+                          if($stmt2 = mysqli_prepare($db, $sql)){
                             // Bind variables to the prepared statement as parameters
-                            mysqli_stmt_bind_param($stmt, "ii", $_GET["id"],$_GET["id"]);
+                            mysqli_stmt_bind_param($stmt2, "i", $_GET["id"]);
 
                             // Attempt to execute the prepared statement
-                            if(mysqli_stmt_execute($stmt)){
+                            if(mysqli_stmt_execute($stmt2)){
+                              // Store result
+                              mysqli_stmt_store_result($stmt2);
+                              mysqli_stmt_bind_result($stmt2, $username2, $remboursement);
+                              mysqli_stmt_fetch($stmt2);
+                              $sql = "SELECT username,SUM(d.prix) as prix,date FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ? GROUP BY username ORDER BY date ";
 
-                                mysqli_stmt_bind_result($stmt, $username);
+                              if($stmt = mysqli_prepare($db, $sql)){
+                                  // Bind variables to the prepared statement as parameters
+                                  mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
 
-                                /* fetch values */
-                                while (mysqli_stmt_fetch($stmt)) {
-                                  if($username!=""){
-                                    echo '<tr>
-                                    <td>
-                                      <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
-                                    <td> 0€ </td>
-                                    <td>
-                                      <label class="badge badge-gradient-success">DONE</label>
-                                    </td>
-                                    <td> 0000-00-00 </td>
-                                    </tr>';
+                                  // Attempt to execute the prepared statement
+                                  if(mysqli_stmt_execute($stmt)){
+                                    // Store result
+                                    mysqli_stmt_store_result($stmt);
+                                    mysqli_stmt_bind_result($stmt, $username, $prix,$date);
+
+                                    /* fetch values */
+                                    while (mysqli_stmt_fetch($stmt)) {
+                                      if($username!=""){
+                                        if($username == $username2){
+                                          echo '<tr>
+                                          <td>
+                                            <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                          <td> '.($prix-$remboursement).'€ </td>
+                                          <td>
+                                            <label class="badge badge-gradient-success">DONE</label>
+                                          </td>
+                                          <td> '.$date.' </td>
+                                        </tr>';
+                                        mysqli_stmt_fetch($stmt2);
+                                        }else{
+                                          echo '<tr>
+                                          <td>
+                                            <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                          <td> '.$prix.'€ </td>
+                                          <td>
+                                            <label class="badge badge-gradient-success">DONE</label>
+                                          </td>
+                                          <td> '.$date.' </td>
+                                        </tr>';
+                                        }
+                                      }
+                                    }
+                                    mysqli_stmt_fetch($stmt);
+                                    
+                                  } else{
+                                      echo mysqli_error($db);
                                   }
-                                }
-                                mysqli_stmt_fetch($stmt);
+                                // Close statement
+                                mysqli_stmt_close($stmt);
+
+                                      
+                                $sql = "SELECT username FROM members m, users u WHERE id like idu and ide = ? AND username not in (SELECT username as prix FROM members m, users u, depenses d WHERE u.id like m.idu and d.ide like m.ide and d.idu like m.idu and m.ide = ?)";
+
+                                if($stmt = mysqli_prepare($db, $sql)){
+                                  // Bind variables to the prepared statement as parameters
+                                  mysqli_stmt_bind_param($stmt, "ii", $_GET["id"],$_GET["id"]);
+
+                                  // Attempt to execute the prepared statement
+                                  if(mysqli_stmt_execute($stmt)){
+
+                                      mysqli_stmt_bind_result($stmt, $username);
+
+                                      /* fetch values */
+                                      while (mysqli_stmt_fetch($stmt)) {
+                                        if($username!=""){
+                                          if($username == $username2){
+                                            echo '<tr>
+                                            <td>
+                                              <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                            <td> '.(-$remboursement).'€ </td>
+                                            <td>
+                                              <label class="badge badge-gradient-success">DONE</label>
+                                            </td>
+                                            <td> 0000-00-00 </td>
+                                          </tr>';
+                                          mysqli_stmt_fetch($stmt2);
+                                          }else{
+                                            echo '<tr>
+                                            <td>
+                                              <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
+                                            <td> 0€ </td>
+                                            <td>
+                                              <label class="badge badge-gradient-success">DONE</label>
+                                            </td>
+                                            <td> 0000-00-00 </td>
+                                          </tr>';
+                                          }
+                                        }
+                                      }
+                                      mysqli_stmt_fetch($stmt);
+                                  } else{
+                                      echo mysqli_error($db);
+                                  }
+                                // Close statement
+                                mysqli_stmt_close($stmt);
+                              }
+                              }
                             } else{
                                 echo mysqli_error($db);
                             }
-                          // Close statement
-                          mysqli_stmt_close($stmt);
-                        }
+                            // Close statement
+                            mysqli_stmt_close($stmt2);
+                          }
+
+
+
 
                           echo '                        </tbody>
                           </table>
