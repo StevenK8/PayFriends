@@ -227,8 +227,41 @@ function addDepense($db,$ide,$idu,$nom,$prix,$date){
         }
     }
     mysqli_stmt_close($stmt);
-    header("location: index.php?id=".$ide);
+    addMemberDepense($db, mysqli_insert_id($db), $ide, $idu);
   }
+}
+
+function addMemberDepense($db, $idd, $ide, $idu){
+  $sql = "SELECT idu FROM `members` WHERE ide=? AND idu!=?";
+  if($stmt = mysqli_prepare($db, $sql)){
+    // Bind variables to the prepared statement as parameters
+    mysqli_stmt_bind_param($stmt, "ii", intval($ide), intval($idu));
+
+    // Attempt to execute the prepared statement
+    if(mysqli_stmt_execute($stmt)){
+      mysqli_stmt_store_result($stmt);
+
+      mysqli_stmt_bind_result($stmt, $idu);
+      /* fetch values */
+      while(mysqli_stmt_fetch($stmt)){
+        $sql2 = "INSERT INTO `members_depense` (`idd`, `idu`, `haspaid`) VALUES ( ? ,  ? ,  0)";
+        if($stmt2 = mysqli_prepare($db, $sql2)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt2, "ii", intval($idd), intval($idu));
+            // Attempt to execute the prepared statement
+            if(!mysqli_stmt_execute($stmt2)){
+                echo "Error: " . $sql2 . "<br>" . mysqli_error($db);
+            }
+            mysqli_stmt_close($stmt2);
+        }else{
+          echo "Error: " . $sql2 . "<br>" . mysqli_error($db);
+        }
+      }
+      mysqli_stmt_fetch($stmt);
+    }
+  }
+  mysqli_stmt_close($stmt);
+  header("location: index.php?id=".$ide);
 }
 
 if(isset($_POST["nomDepense"]) && isset($_POST["prixDepense"]) && intval($_POST["prixDepense"])>0 && isset($_POST["id"])){
@@ -324,6 +357,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="input-group-append">
                       <span class="input-group-text bg-gradient-primary text-white">€</span>
                     </div>
+                  </div>
+                  <div class="form-check form-check-info">
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" checked=""> Tous les membres <i class="input-helper"></i></label>
+                  </div>
+                  <div class="form-check form-check-info">
+                    <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value=""> Sélectionner certains membres <i class="input-helper"></i></label>
                   </div>
               </div>
           </div>
