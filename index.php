@@ -400,11 +400,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="mdi mdi-cached mr-2 text-success"></i> Activity Log </a>
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="logout.php">
-                  <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
+                  <i class="mdi mdi-logout mr-2 text-primary"></i> Déconnexion </a>
               </div>
             </li>
             <li class="nav-item d-none d-lg-block full-screen-link">
