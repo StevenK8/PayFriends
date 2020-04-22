@@ -1,6 +1,7 @@
 (function($) {
   'use strict';
   $('#invitation').modal('show');
+  
 
   if($('[name^="notification"]').length>0){
     $('#notificationDropdown').append('<span class="count-symbol bg-danger"></span>');
@@ -527,3 +528,45 @@
     }
   });
 })(jQuery);
+
+$(document).ready(function(){
+  $.ajax({
+    url: "http://localhost/payfriends/data.php?"+window.location.search.substr(1),
+    method: "GET",
+    success: function(data) {
+      console.log(data);
+      var player = [];
+      var score = [];
+
+      for(var i in data) {
+        player.push(data[i].username + " " + data[i].date);
+        score.push(data[i].prix);
+      }
+
+      var chartdata = {
+        labels: player,
+        datasets : [
+          {
+            label: 'Prix par participant',
+            backgroundColor: 'rgba(200, 200, 200, 0.75)',
+            borderColor: 'rgba(200, 200, 200, 0.75)',
+            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
+            hoverBorderColor: 'rgba(200, 200, 200, 1)',
+            data: score
+          }
+        ]
+      };
+
+      var ctx = $("#mycanvas");
+
+      var barGraph = new Chart(ctx, {
+        type: 'bar',
+        data: chartdata
+      });
+      $("#mycanvas-legend").html(barGraph.generateLegend());  
+    },
+    error: function(data) {
+      console.log(data);
+    }
+  });
+});
