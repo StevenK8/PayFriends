@@ -870,7 +870,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                             <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
                                           <td> '.($prix-$remboursement).'€ </td>
                                           <td>
-                                            <label class="badge badge-gradient-success">Positif</label>
+                                            <label class="badge '.(($prix-$remboursement)>0?"badge-gradient-success\">Positif":"badge-gradient-danger\">Négatif").'</label>
                                           </td>
                                           <td> '.$date.' </td>
                                         </tr>';
