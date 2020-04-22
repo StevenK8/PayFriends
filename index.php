@@ -832,7 +832,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                       <tr>
                                         <th> Nom d\'utilisateur </th>
                                         <th> Somme totale </th>
-                                        <th> Status </th>
+                                        <th> Statut </th>
                                         <th> Date </th>
                                       </tr>
                                     </thead>
@@ -870,7 +870,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                             <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
                                           <td> '.($prix-$remboursement).'€ </td>
                                           <td>
-                                            <label class="badge badge-gradient-success">DONE</label>
+                                            <label class="badge badge-gradient-success">Positif</label>
                                           </td>
                                           <td> '.$date.' </td>
                                         </tr>';
@@ -881,7 +881,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                             <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
                                           <td> '.$prix.'€ </td>
                                           <td>
-                                            <label class="badge badge-gradient-success">DONE</label>
+                                            <label class="badge badge-gradient-success">Positif</label>
                                           </td>
                                           <td> '.$date.' </td>
                                         </tr>';
@@ -917,9 +917,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                               <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
                                             <td> '.(-$remboursement).'€ </td>
                                             <td>
-                                              <label class="badge badge-gradient-success">DONE</label>
+                                              <label class="badge badge-gradient-danger">Négatif</label>
                                             </td>
-                                            <td> 0000-00-00 </td>
+                                            <td style="color: grey;"> Jamais </td>
                                           </tr>';
                                           mysqli_stmt_fetch($stmt2);
                                           }else{
@@ -928,9 +928,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                               <img src="assets/images/faces/'.$username.'.png" class="mr-2" alt="image"> '.$username.'</td>
                                             <td> 0€ </td>
                                             <td>
-                                              <label class="badge badge-gradient-success">DONE</label>
+                                              <label class="badge badge-gradient-info">Zé-ro</label>
                                             </td>
-                                            <td> 0000-00-00 </td>
+                                            <td style="color: grey;"> Jamais </td>
                                           </tr>';
                                           }
                                         }
