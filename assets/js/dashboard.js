@@ -202,125 +202,282 @@
               }
             })
     }
-    if ($("#visit-sale-chart").length) {
-      Chart.defaults.global.legend.labels.usePointStyle = true;
-      var ctx = document.getElementById('visit-sale-chart').getContext("2d");
 
-      var gradientStrokeViolet = ctx.createLinearGradient(0, 0, 0, 181);
-      gradientStrokeViolet.addColorStop(0, 'rgba(218, 140, 255, 1)');
-      gradientStrokeViolet.addColorStop(1, 'rgba(154, 85, 255, 1)');
-      var gradientLegendViolet = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
+
       
-      var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 360);
-      gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
-      gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
-      var gradientLegendBlue = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
+        // for(var i in data) {
+        //   utilisateur.push(data[i].username);
+        //   date.push(data[i].date);
+        //   newDataset.push ({
+        //     label : data[i].username,
+        //     backgroundColor: color(dsColor),
+        //     borderColor: dsColor,
+        //     borderWidth: 1,
+        //     data: data[i].prix
+        //   });
+        //   barChartData.push({label: data[i].date, datasets: newDataset});
+        //   console.log(newDataset[i]);
+        // }
 
-      var gradientStrokeRed = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStrokeRed.addColorStop(0, 'rgba(255, 191, 150, 1)');
-      gradientStrokeRed.addColorStop(1, 'rgba(254, 112, 150, 1)');
-      var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
+  
+        // var chartdata = {
+        //   data : barChartData,
+        //   options: {
+        //     responsive: true,
+        //     legend: false,
+        //     legendCallback: function(chart) {
+        //       var text = []; 
+        //       text.push('<ul>'); 
+        //       for (var i = 0; i < chart.data.datasets.length; i++) { 
+        //           text.push('<li><span class="legend-dots" style="background:' + 
+        //                      chart.data.datasets[i].legendColor + 
+        //                      '"></span>'); 
+        //           if (chart.data.datasets[i].label) { 
+        //               text.push(chart.data.datasets[i].label); 
+        //           } 
+        //           text.push('</li>'); 
+        //       } 
+        //       text.push('</ul>'); 
+        //       return text.join('');
+        //     },
+        //     scales: {
+        //         yAxes: [{
+        //             ticks: {
+        //                 display: false,
+        //                 min: 0,
+        //                 stepSize: 20,
+        //                 max: 80
+        //             },
+        //             gridLines: {
+        //               drawBorder: false,
+        //               color: 'rgba(235,237,242,1)',
+        //               zeroLineColor: 'rgba(235,237,242,1)'
+        //             }
+        //         }],
+        //         xAxes: [{
+        //             gridLines: {
+        //               display:false,
+        //               drawBorder: false,
+        //               color: 'rgba(0,0,0,1)',
+        //               zeroLineColor: 'rgba(235,237,242,1)'
+        //             },
+        //             ticks: {
+        //                 padding: 20,
+        //                 fontColor: "#9c9fa6",
+        //                 autoSkip: true,
+        //             },
+        //             categoryPercentage: 0.5,
+        //             barPercentage: 0.5
+        //         }]
+        //       }
+        //     }
+        // };
+  
+        // var ctx = document.getElementById('mycanvas').getContext("2d");
 
-      var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
-            datasets: [
-              {
-                label: "CHN",
-                borderColor: gradientStrokeViolet,
-                backgroundColor: gradientStrokeViolet,
-                hoverBackgroundColor: gradientStrokeViolet,
-                legendColor: gradientLegendViolet,
+        // var barGraph = new Chart(ctx, {
+        //   type: 'bar',
+        //   data: chartdata,
+        //   options: {
+        //     scales: {
+        //         xAxes: [{
+        //             type: 'time',
+        //             time: {
+        //                 displayFormats: {
+        //                   month: 'MMM YYYY'
+        //                 }
+        //             }
+        //         }]
+        //     }
+        //   }
+        // });
+
+        $.ajax({
+          url: "http://localhost/payfriends/data.php?"+window.location.search.substr(1),
+          method: "GET",
+          success: function(data) {
+            console.log(data);
+            var date = [];
+            var barChartData = [{}];
+            var newDataset = [{}];
+
+      if ($("#visit-sale-chart").length) {
+        Chart.defaults.global.legend.labels.usePointStyle = true;
+        var ctx = document.getElementById('visit-sale-chart').getContext("2d");
+
+        var gradientStrokeViolet = ctx.createLinearGradient(0, 0, 0, 181);
+        gradientStrokeViolet.addColorStop(0, 'rgba(218, 140, 255, 1)');
+        gradientStrokeViolet.addColorStop(1, 'rgba(154, 85, 255, 1)');
+        var gradientLegendViolet = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
+        
+        var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 360);
+        gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
+        gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
+        var gradientLegendBlue = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
+
+        var gradientStrokeRed = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientStrokeRed.addColorStop(0, 'rgba(255, 191, 150, 1)');
+        gradientStrokeRed.addColorStop(1, 'rgba(254, 112, 150, 1)');
+        var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
+
+        var chartColorsStroke = [gradientStrokeViolet,gradientStrokeBlue,gradientStrokeRed];
+        var chartColorsLegend = [gradientLegendViolet,gradientLegendBlue,gradientLegendRed];
+
+        
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug','Sep','Oct','Nov','Dec'];
+        var m = months.indexOf(data[0].date); // mois de la première dépense
+
+        for(var i in data) {
+          if(months[m] == data[i].date){
+            date.push(data[i].date);
+            newDataset.push ({
+              label : data[i].username,
+              backgroundColor: chartColorsStroke[i%chartColorsStroke.length()],
+              borderColor: chartColorsStroke[i%chartColorsStroke.length],
+              hoverBackgroundColor:  chartColorsStroke[i%chartColorsStroke.length()],
+              legendColor:  chartColorsLegend[i%chartColorsLegend.length],
+              pointRadius: 0,
+              fill: false,
+              borderWidth: 1,
+              fill: 'origin',
+              data: data[i].prix
+            });
+          }else{
+            while(months[m] != data[i].date){
+              date.push(months[m]);
+              newDataset.push ({
+                label : '',
+                backgroundColor: chartColorsStroke[i%chartColorsStroke.length()],
+                borderColor: chartColorsStroke[i%chartColorsStroke.length],
+                hoverBackgroundColor:  chartColorsStroke[i%chartColorsStroke.length()],
+                legendColor:  chartColorsLegend[i%chartColorsLegend.length],
                 pointRadius: 0,
                 fill: false,
                 borderWidth: 1,
                 fill: 'origin',
-                data: [20, 40, 15, 35, 25, 50, 30, 20]
-              },
-              {
-                label: "USA",
-                borderColor: gradientStrokeRed,
-                backgroundColor: gradientStrokeRed,
-                hoverBackgroundColor: gradientStrokeRed,
-                legendColor: gradientLegendRed,
-                pointRadius: 0,
-                fill: false,
-                borderWidth: 1,
-                fill: 'origin',
-                data: [40, 30, 20, 10, 50, 15, 35, 40]
-              },
-              {
-                label: "UK",
-                borderColor: gradientStrokeBlue,
-                backgroundColor: gradientStrokeBlue,
-                hoverBackgroundColor: gradientStrokeBlue,
-                legendColor: gradientLegendBlue,
-                pointRadius: 0,
-                fill: false,
-                borderWidth: 1,
-                fill: 'origin',
-                data: [70, 10, 30, 40, 25, 50, 15, 30]
-              }
-          ]
-        },
-        options: {
-          responsive: true,
-          legend: false,
-          legendCallback: function(chart) {
-            var text = []; 
-            text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
-                } 
-                text.push('</li>'); 
-            } 
-            text.push('</ul>'); 
-            return text.join('');
-          },
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      display: false,
-                      min: 0,
-                      stepSize: 20,
-                      max: 80
-                  },
-                  gridLines: {
-                    drawBorder: false,
-                    color: 'rgba(235,237,242,1)',
-                    zeroLineColor: 'rgba(235,237,242,1)'
-                  }
-              }],
-              xAxes: [{
-                  gridLines: {
-                    display:false,
-                    drawBorder: false,
-                    color: 'rgba(0,0,0,1)',
-                    zeroLineColor: 'rgba(235,237,242,1)'
-                  },
-                  ticks: {
-                      padding: 20,
-                      fontColor: "#9c9fa6",
-                      autoSkip: true,
-                  },
-                  categoryPercentage: 0.5,
-                  barPercentage: 0.5
-              }]
-            }
-          },
-          elements: {
-            point: {
-              radius: 0
+                data: 0
+              });
+              m+=1;
+              m%=12;
             }
           }
-      })
-      $("#visit-sale-chart-legend").html(myChart.generateLegend());
+        }
+        barChartData.push({label: date, datasets: newDataset});
+
+        
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
+              datasets: [
+                {
+                  label: "CHN",
+                  borderColor: gradientStrokeViolet,
+                  backgroundColor: gradientStrokeViolet,
+                  hoverBackgroundColor: gradientStrokeViolet,
+                  legendColor: gradientLegendViolet,
+                  pointRadius: 0,
+                  fill: false,
+                  borderWidth: 1,
+                  fill: 'origin',
+                  data: [20, 40, 15, 35, 25, 50, 30, 20]
+                },
+                {
+                  label: "USA",
+                  borderColor: gradientStrokeRed,
+                  backgroundColor: gradientStrokeRed,
+                  hoverBackgroundColor: gradientStrokeRed,
+                  legendColor: gradientLegendRed,
+                  pointRadius: 0,
+                  fill: false,
+                  borderWidth: 1,
+                  fill: 'origin',
+                  data: [40, 30, 20, 10, 50, 15, 35, 40]
+                },
+                {
+                  label: "UK",
+                  borderColor: gradientStrokeBlue,
+                  backgroundColor: gradientStrokeBlue,
+                  hoverBackgroundColor: gradientStrokeBlue,
+                  legendColor: gradientLegendBlue,
+                  pointRadius: 0,
+                  fill: false,
+                  borderWidth: 1,
+                  fill: 'origin',
+                  data: [70, 10, 30, 40, 25, 50, 15, 30]
+                }
+            ]
+          },
+          options: {
+            responsive: true,
+            legend: false,
+            legendCallback: function(chart) {
+              var text = []; 
+              text.push('<ul>'); 
+              for (var i = 0; i < chart.data.datasets.length; i++) { 
+                  text.push('<li><span class="legend-dots" style="background:' + 
+                            chart.data.datasets[i].legendColor + 
+                            '"></span>'); 
+                  if (chart.data.datasets[i].label) { 
+                      text.push(chart.data.datasets[i].label); 
+                  } 
+                  text.push('</li>'); 
+              } 
+              text.push('</ul>'); 
+              return text.join('');
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        display: false,
+                        min: 0,
+                        stepSize: 20,
+                        max: 80
+                    },
+                    gridLines: {
+                      drawBorder: false,
+                      color: 'rgba(235,237,242,1)',
+                      zeroLineColor: 'rgba(235,237,242,1)'
+                    }
+                }],
+                xAxes: [{
+                    type: 'time',
+                      time: {
+                          displayFormats: {
+                            month: 'MMM YYYY'
+                          }
+                      },
+                    gridLines: {
+                      display:false,
+                      drawBorder: false,
+                      color: 'rgba(0,0,0,1)',
+                      zeroLineColor: 'rgba(235,237,242,1)'
+                    },
+                    ticks: {
+                        padding: 20,
+                        fontColor: "#9c9fa6",
+                        autoSkip: true,
+                    },
+                    categoryPercentage: 0.5,
+                    barPercentage: 0.5
+                }]
+              }
+            },
+            elements: {
+              point: {
+                radius: 0
+              }
+            }
+        })
+        $("#visit-sale-chart-legend").html(myChart.generateLegend());
+      }
+
+    },
+    error: function(data) {
+      console.log(data);
     }
+  });
+
     if ($("#visit-sale-chart-dark").length) {
       Chart.defaults.global.legend.labels.usePointStyle = true;
       var ctx = document.getElementById('visit-sale-chart-dark').getContext("2d");
@@ -529,44 +686,3 @@
   });
 })(jQuery);
 
-$(document).ready(function(){
-  $.ajax({
-    url: "http://localhost/payfriends/data.php?"+window.location.search.substr(1),
-    method: "GET",
-    success: function(data) {
-      console.log(data);
-      var player = [];
-      var score = [];
-
-      for(var i in data) {
-        player.push(data[i].username + " " + data[i].date);
-        score.push(data[i].prix);
-      }
-
-      var chartdata = {
-        labels: player,
-        datasets : [
-          {
-            label: 'Prix par participant',
-            backgroundColor: 'rgba(200, 200, 200, 0.75)',
-            borderColor: 'rgba(200, 200, 200, 0.75)',
-            hoverBackgroundColor: 'rgba(200, 200, 200, 1)',
-            hoverBorderColor: 'rgba(200, 200, 200, 1)',
-            data: score
-          }
-        ]
-      };
-
-      var ctx = $("#mycanvas");
-
-      var barGraph = new Chart(ctx, {
-        type: 'bar',
-        data: chartdata
-      });
-      $("#mycanvas-legend").html(barGraph.generateLegend());  
-    },
-    error: function(data) {
-      console.log(data);
-    }
-  });
-});

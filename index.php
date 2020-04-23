@@ -804,7 +804,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
                     </div>
                     <canvas id="visit-sale-chart" class="mt-4"></canvas>
-                    
                     <canvas id="mycanvas"></canvas>
                     <div id="mycanvas-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                   </div>

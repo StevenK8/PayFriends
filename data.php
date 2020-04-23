@@ -43,7 +43,7 @@ if(isset($_GET["id"])){
     header("location: index.php");
 }
 
-$sql = "SELECT d.nom,username,d.date,d.prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? ORDER BY date desc";
+$sql = "SELECT username,DATE_FORMAT(d.date, '%b', 'fr-FR') as date,SUM(d.prix) as prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? GROUP BY username,DATE_FORMAT(`date`, '%M') ORDER BY date asc";
                           
 if($stmt = mysqli_prepare($db, $sql)){
     // Bind variables to the prepared statement as parameters
