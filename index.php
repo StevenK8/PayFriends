@@ -600,7 +600,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <img src="assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image" />
                     <h4 class="font-weight-normal mb-3">Coût total <i class="mdi mdi-chart-line mdi-24px float-right"></i>
                     </h4>
-                    <h2 class="mb-5">
+                    <h2 class="mb-5" id="totalEvt">
                       <?php
                       if(isset($_GET["id"])){
                         $sql = "SELECT COUNT(idu) FROM members WHERE ide like ?";
@@ -805,8 +805,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </div>
                     <canvas id="visit-sale-chart" class="mt-4"></canvas>
                     
-                    <canvas id="mycanvas"></canvas>
-                    <div id="mycanvas-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
+                    <!-- <canvas id="mycanvas"></canvas>
+                    <div id="mycanvas-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div> -->
                   </div>
                 </div>
               </div>

@@ -440,93 +440,116 @@
       })
       $("#visit-sale-chart-legend-dark").html(myChart.generateLegend());
     }
-    if ($("#traffic-chart").length) {
-      var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 181);
-      gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
-      gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
-      var gradientLegendBlue = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
 
-      var gradientStrokeRed = ctx.createLinearGradient(0, 0, 0, 50);
-      gradientStrokeRed.addColorStop(0, 'rgba(255, 191, 150, 1)');
-      gradientStrokeRed.addColorStop(1, 'rgba(254, 112, 150, 1)');
-      var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
+    $(document).ready(function(){
+      $.ajax({
+        url: "http://localhost/payfriends/dataDonut.php?"+window.location.search.substr(1),
+        method: "GET",
+        success: function(data) {
+          if ($("#traffic-chart").length) {
+            var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 181);
+            gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
+            gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
+            var gradientLegendBlue = 'linear-gradient(to right, rgba(54, 215, 232, 1), rgba(177, 148, 250, 1))';
 
-      var gradientStrokeGreen = ctx.createLinearGradient(0, 0, 0, 300);
-      gradientStrokeGreen.addColorStop(0, 'rgba(6, 185, 157, 1)');
-      gradientStrokeGreen.addColorStop(1, 'rgba(132, 217, 210, 1)');
-      var gradientLegendGreen = 'linear-gradient(to right, rgba(6, 185, 157, 1), rgba(132, 217, 210, 1))';      
+            var gradientStrokeRed = ctx.createLinearGradient(0, 0, 0, 50);
+            gradientStrokeRed.addColorStop(0, 'rgba(255, 191, 150, 1)');
+            gradientStrokeRed.addColorStop(1, 'rgba(254, 112, 150, 1)');
+            var gradientLegendRed = 'linear-gradient(to right, rgba(255, 191, 150, 1), rgba(254, 112, 150, 1))';
 
-      var trafficChartData = {
-        datasets: [{
-          data: [30, 30, 40],
-          backgroundColor: [
-            gradientStrokeBlue,
-            gradientStrokeGreen,
-            gradientStrokeRed
-          ],
-          hoverBackgroundColor: [
-            gradientStrokeBlue,
-            gradientStrokeGreen,
-            gradientStrokeRed
-          ],
-          borderColor: [
-            gradientStrokeBlue,
-            gradientStrokeGreen,
-            gradientStrokeRed
-          ],
-          legendColor: [
-            gradientLegendBlue,
-            gradientLegendGreen,
-            gradientLegendRed
-          ]
-        }],
-    
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-          'Search Engines',
-          'Direct Click',
-          'Bookmarks Click',
-        ]
-      };
-      var trafficChartOptions = {
-        responsive: true,
-        animation: {
-          animateScale: true,
-          animateRotate: true
-        },
-        legend: false,
-        legendCallback: function(chart) {
-          var text = []; 
-          text.push('<ul>'); 
-          for (var i = 0; i < trafficChartData.datasets[0].data.length; i++) { 
-              text.push('<li><span class="legend-dots" style="background:' + 
-              trafficChartData.datasets[0].legendColor[i] + 
-                          '"></span>'); 
-              if (trafficChartData.labels[i]) { 
-                  text.push(trafficChartData.labels[i]); 
+            var gradientStrokeGreen = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientStrokeGreen.addColorStop(0, 'rgba(6, 185, 157, 1)');
+            gradientStrokeGreen.addColorStop(1, 'rgba(132, 217, 210, 1)');
+            var gradientLegendGreen = 'linear-gradient(to right, rgba(6, 185, 157, 1), rgba(132, 217, 210, 1))';      
+
+            var usernames = [];
+            var prix = [];
+            var gradientStroke = [gradientStrokeBlue,gradientStrokeGreen,gradientStrokeRed];
+            var gradientLegend = [gradientLegendBlue,gradientLegendGreen,gradientLegendRed];
+            var j=0;
+            var randStroke;
+            var color1, color2;
+            var colors = ['rgba(54, 215, 232, 1)', 'rgba(177, 148, 250, 1)','rgba(255, 191, 150, 1)','rgba(254, 112, 150, 1)','rgba(6, 185, 157, 1)','rgba(132, 217, 210, 1)','rgba(218, 140, 255, 1)','rgba(154, 85, 255, 1)','#86A8E7','#eaafc8','#5E50F9','#6610f2','#6a008a','#E91E63','#f96868','#f2a654','#f6e84e','#46c35f','#58d8a3','#57c7d4','#6c757d','#0f1531','#6a008a','#E91E63','#f96868','#f2a654','#f6e84e','#46c35f','#58d8a3','#57c7d4','#434a54','#aab2bd','#e6e9ed','#b66dff','#c3bdbd','#1bcfb4','#198ae3','#fed713','#fe7c96','#f8f9fa'];
+            
+            function randomNumber(min,max){
+              return Math.floor((Math.random() * max) + min);
+            }
+
+            for(var i in data) {
+              usernames.push(data[i].username);
+              prix.push(data[i].prix);
+              j++;
+              if(j>gradientStroke.length){
+                randStroke = ctx.createLinearGradient(0, 0, 0, randomNumber(50,300));
+                color1 = colors[randomNumber(0,colors.length-1)];
+                color2 = colors[randomNumber(0,colors.length-1)];
+                randStroke.addColorStop(0, color1);
+                randStroke.addColorStop(1, color2);
+
+                gradientLegend.push("linear-gradient(to right, "+color1+", "+color2);
+                gradientStroke.push(randStroke);
               }
-              text.push('<span class="float-right">'+trafficChartData.datasets[0].data[i]+"%"+'</span>')
-              text.push('</li>'); 
-          } 
-          text.push('</ul>'); 
-          return text.join('');
-        }
-      };
-      var trafficChartCanvas = $("#traffic-chart").get(0).getContext("2d");
-      var trafficChart = new Chart(trafficChartCanvas, {
-        type: 'doughnut',
-        data: trafficChartData,
-        options: trafficChartOptions
-      });
-      $("#traffic-chart-legend").html(trafficChart.generateLegend());      
-    }
-    if ($("#inline-datepicker").length) {
-      $('#inline-datepicker').datepicker({
-        enableOnReadonly: true,
-        todayHighlight: true,
-      });
+              
+            }
+
+            var trafficChartData = {
+              datasets: [{
+                data: prix,
+                backgroundColor: gradientStroke,
+                hoverBackgroundColor: gradientStroke,
+                borderColor: gradientStroke,
+                legendColor: gradientLegend
+              }],
+          
+              // These labels appear in the legend and in the tooltips when hovering different arcs
+              labels: usernames,
+            };
+            var trafficChartOptions = {
+              responsive: true,
+              animation: {
+                animateScale: true,
+                animateRotate: true
+              },
+              legend: false,
+              legendCallback: function(chart) {
+                var text = []; 
+                text.push('<ul>'); 
+                for (var i = 0; i < trafficChartData.datasets[0].data.length; i++) { 
+                    text.push('<li><span class="legend-dots" style="background:' + 
+                    trafficChartData.datasets[0].legendColor[i] + 
+                                '"></span>'); 
+                    if (trafficChartData.labels[i]) { 
+                        text.push(trafficChartData.labels[i]); 
+                    }
+                    text.push('<span class="float-right">'+trafficChartData.datasets[0].data[i]+"€"+'</span>')
+                    text.push('</li>'); 
+                } 
+                text.push('</ul>'); 
+                return text.join('');
+              }
+            };
+            var trafficChartCanvas = $("#traffic-chart").get(0).getContext("2d");
+            var trafficChart = new Chart(trafficChartCanvas, {
+              type: 'doughnut',
+              data: trafficChartData,
+              options: trafficChartOptions
+            });
+            $("#traffic-chart-legend").html(trafficChart.generateLegend());      
+          }
+          if ($("#inline-datepicker").length) {
+            $('#inline-datepicker').datepicker({
+              enableOnReadonly: true,
+              todayHighlight: true,
+            });
+          }
+        },
+    error: function(data) {
+      console.log(data);
     }
   });
+  });
+  });
+  
 })(jQuery);
 
 $(document).ready(function(){
@@ -539,7 +562,7 @@ $(document).ready(function(){
       var score = [];
 
       for(var i in data) {
-        player.push(data[i].username + " " + data[i].date);
+        player.push(data[i].date);
         score.push(data[i].prix);
       }
 
@@ -557,13 +580,23 @@ $(document).ready(function(){
         ]
       };
 
-      var ctx = $("#mycanvas");
+      // var ctx = $("#mycanvas");
 
-      var barGraph = new Chart(ctx, {
-        type: 'bar',
-        data: chartdata
-      });
-      $("#mycanvas-legend").html(barGraph.generateLegend());  
+      // var barGraph = new Chart(ctx, {
+      //   type: 'bar',
+      //   data: chartdata,
+      //   // options: {
+      //   //   scales: {
+      //   //       xAxes: [{
+      //   //           type: 'time',
+      //   //           time: {
+      //   //               unit: 'month'
+      //   //           }
+      //   //       }]
+      //   //   }
+      //   // }
+      // });
+      // $("#mycanvas-legend").html(barGraph.generateLegend());  
     },
     error: function(data) {
       console.log(data);
