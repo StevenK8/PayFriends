@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: https://stevenkerautret.com");
 // Initialize the session
 session_start();
 
