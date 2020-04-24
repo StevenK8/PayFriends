@@ -443,7 +443,7 @@
 
     $(document).ready(function(){
       $.ajax({
-        url: "http://localhost/payfriends/dataDonut.php?"+window.location.search.substr(1),
+        url: window.location.protocol + "//"+ window.location.hostname + "/" + window.location.pathname.split("/")[1] + "/dataDonut.php?" + window.location.search.substr(1),
         method: "GET",
         success: function(data) {
           if ($("#traffic-chart").length) {
@@ -554,7 +554,7 @@
 
 $(document).ready(function(){
   $.ajax({
-    url: "http://localhost/payfriends/data.php?"+window.location.search.substr(1),
+    url: window.location.protocol + "//"+ window.location.hostname + "/" + window.location.pathname.split("/")[1] + "/data.php?" + window.location.search.substr(1),
     method: "GET",
     success: function(data) {
       console.log(data);
