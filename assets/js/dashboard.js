@@ -446,6 +446,7 @@
         url: window.location.protocol + "//"+ window.location.hostname + "/" + window.location.pathname.split("/")[1] + "/dataDonut.php?" + window.location.search.substr(1),
         method: "GET",
         success: function(data) {
+          if(data.length<100){ 
           if ($("#traffic-chart").length) {
             var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 181);
             gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
@@ -542,6 +543,9 @@
               todayHighlight: true,
             });
           }
+        }else{// Si la donnée renvoyée est trop grande (page login au lieu d'un payload json)
+          $("#traffic-chart-legend").html("<center><h5>Pas de données.</h5></center>");
+        }
         },
     error: function(data) {
       console.log(data);
