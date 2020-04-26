@@ -487,7 +487,7 @@
           url: window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1] + "/dataDonutMainPage.php?" + window.location.search.substr(1),
           method: "GET",
           success: function (data) {
-            if ($("#traffic-chart").length) {
+            if ($("#traffic-chart").length && data.length!=0) {
               var ctx = document.getElementById('traffic-chart').getContext("2d");
 
               var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 181);
@@ -577,6 +577,8 @@
                 options: trafficChartOptions
               });
               $("#traffic-chart-legend").html(trafficChart.generateLegend());
+            }else{
+              $("#traffic-chart-legend").html("<center><h5>Pas de données.</h5></center>");
             }
             if ($("#inline-datepicker").length) {
               $('#inline-datepicker').datepicker({
