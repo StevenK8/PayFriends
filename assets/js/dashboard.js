@@ -261,13 +261,14 @@
                 prix[i] = [];
               }
               usernames = usernames.filter(onlyUnique);
+              var moisdoublons = mois;
               mois = mois.filter(onlyUnique);
 
               for (var i in data) { // Pour chaque donnée (mois - username - prix)
                 for (var k in usernames) { // Pour chaque username distinct
                   if (usernames[k] == data[i].username) {
                     prix[k].push(data[i].prix); // On ajoute sa donnée
-                  } else {
+                  } else if(data[i].date!=moisdoublons[k]) {
                     prix[k].push("");
                   }
                 }
