@@ -1,14 +1,14 @@
 (function($) {
   'use strict';
   $('#invitation').modal('show');
-  
+
 
   if($('[name^="notification"]').length>0){
     $('#notificationDropdown').append('<span class="count-symbol bg-danger"></span>');
   }
 
   $(function() {
-    
+
     Chart.defaults.global.legend.labels.usePointStyle = true;
     if ($("#serviceSaleProgress").length) {
       var bar = new ProgressBar.Circle(serviceSaleProgress, {
@@ -210,7 +210,7 @@
       gradientStrokeViolet.addColorStop(0, 'rgba(218, 140, 255, 1)');
       gradientStrokeViolet.addColorStop(1, 'rgba(154, 85, 255, 1)');
       var gradientLegendViolet = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
-      
+
       var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 360);
       gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
       gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
@@ -268,18 +268,18 @@
           responsive: true,
           legend: false,
           legendCallback: function(chart) {
-            var text = []; 
-            text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
-                } 
-                text.push('</li>'); 
-            } 
-            text.push('</ul>'); 
+            var text = [];
+            text.push('<ul>');
+            for (var i = 0; i < chart.data.datasets.length; i++) {
+                text.push('<li><span class="legend-dots" style="background:' +
+                           chart.data.datasets[i].legendColor +
+                           '"></span>');
+                if (chart.data.datasets[i].label) {
+                    text.push(chart.data.datasets[i].label);
+                }
+                text.push('</li>');
+            }
+            text.push('</ul>');
             return text.join('');
           },
           scales: {
@@ -329,7 +329,7 @@
       gradientStrokeViolet.addColorStop(0, 'rgba(218, 140, 255, 1)');
       gradientStrokeViolet.addColorStop(1, 'rgba(154, 85, 255, 1)');
       var gradientLegendViolet = 'linear-gradient(to right, rgba(218, 140, 255, 1), rgba(154, 85, 255, 1))';
-      
+
       var gradientStrokeBlue = ctx.createLinearGradient(0, 0, 0, 360);
       gradientStrokeBlue.addColorStop(0, 'rgba(54, 215, 232, 1)');
       gradientStrokeBlue.addColorStop(1, 'rgba(177, 148, 250, 1)');
@@ -387,18 +387,18 @@
           responsive: true,
           legend: false,
           legendCallback: function(chart) {
-            var text = []; 
-            text.push('<ul>'); 
-            for (var i = 0; i < chart.data.datasets.length; i++) { 
-                text.push('<li><span class="legend-dots" style="background:' + 
-                           chart.data.datasets[i].legendColor + 
-                           '"></span>'); 
-                if (chart.data.datasets[i].label) { 
-                    text.push(chart.data.datasets[i].label); 
-                } 
-                text.push('</li>'); 
-            } 
-            text.push('</ul>'); 
+            var text = [];
+            text.push('<ul>');
+            for (var i = 0; i < chart.data.datasets.length; i++) {
+                text.push('<li><span class="legend-dots" style="background:' +
+                           chart.data.datasets[i].legendColor +
+                           '"></span>');
+                if (chart.data.datasets[i].label) {
+                    text.push(chart.data.datasets[i].label);
+                }
+                text.push('</li>');
+            }
+            text.push('</ul>');
             return text.join('');
           },
           scales: {
@@ -454,7 +454,7 @@
       var gradientStrokeGreen = ctx.createLinearGradient(0, 0, 0, 300);
       gradientStrokeGreen.addColorStop(0, 'rgba(6, 185, 157, 1)');
       gradientStrokeGreen.addColorStop(1, 'rgba(132, 217, 210, 1)');
-      var gradientLegendGreen = 'linear-gradient(to right, rgba(6, 185, 157, 1), rgba(132, 217, 210, 1))';      
+      var gradientLegendGreen = 'linear-gradient(to right, rgba(6, 185, 157, 1), rgba(132, 217, 210, 1))';
 
       var trafficChartData = {
         datasets: [{
@@ -480,7 +480,7 @@
             gradientLegendRed
           ]
         }],
-    
+
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
           'Search Engines',
@@ -496,19 +496,19 @@
         },
         legend: false,
         legendCallback: function(chart) {
-          var text = []; 
-          text.push('<ul>'); 
-          for (var i = 0; i < trafficChartData.datasets[0].data.length; i++) { 
-              text.push('<li><span class="legend-dots" style="background:' + 
-              trafficChartData.datasets[0].legendColor[i] + 
-                          '"></span>'); 
-              if (trafficChartData.labels[i]) { 
-                  text.push(trafficChartData.labels[i]); 
+          var text = [];
+          text.push('<ul>');
+          for (var i = 0; i < trafficChartData.datasets[0].data.length; i++) {
+              text.push('<li><span class="legend-dots" style="background:' +
+              trafficChartData.datasets[0].legendColor[i] +
+                          '"></span>');
+              if (trafficChartData.labels[i]) {
+                  text.push(trafficChartData.labels[i]);
               }
               text.push('<span class="float-right">'+trafficChartData.datasets[0].data[i]+"%"+'</span>')
-              text.push('</li>'); 
-          } 
-          text.push('</ul>'); 
+              text.push('</li>');
+          }
+          text.push('</ul>');
           return text.join('');
         }
       };
@@ -518,7 +518,7 @@
         data: trafficChartData,
         options: trafficChartOptions
       });
-      $("#traffic-chart-legend").html(trafficChart.generateLegend());      
+      $("#traffic-chart-legend").html(trafficChart.generateLegend());
     }
     if ($("#inline-datepicker").length) {
       $('#inline-datepicker').datepicker({
@@ -557,13 +557,13 @@ $(document).ready(function(){
         ]
       };
 
-      var ctx = $("#mycanvas");
+      var ctx = document.getElementById('visit-sale-chart').getContext("2d");
 
       var barGraph = new Chart(ctx, {
         type: 'bar',
         data: chartdata
       });
-      $("#mycanvas-legend").html(barGraph.generateLegend());  
+      $("#mycanvas-legend").html(barGraph.generateLegend());
     },
     error: function(data) {
       console.log(data);
