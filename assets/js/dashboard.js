@@ -263,13 +263,14 @@
               usernames = usernames.filter(onlyUnique);
               mois = mois.filter(onlyUnique);
 
+
               for (var i in data) { // Pour chaque donnée (mois - username - prix)
                 for (var k in usernames) { // Pour chaque username distinct
                   if (usernames[k] == data[i].username) {
                     prix[k].push(data[i].prix); // On ajoute sa donnée
                   } else {
                     prix[k].push("");
-                  }
+                   }
                 }
                 j++;
                 if (j > gradientStroke.length) {
@@ -283,7 +284,6 @@
                   gradientStroke.push(randStroke);
                 }
               }
-              // console.log(prix);
 
               for (k in usernames) {
                 datasets[k] = {
@@ -480,7 +480,7 @@
       });
     } else { // Si la donnée renvoyée est trop grande (page login au lieu d'un payload json)
       $("#visit-sale-chart-legend").html("<center><h5>Pas de données.</h5></center>");
-      
+
       $(document).ready(function () {
         $.ajax({
           url: window.location.protocol + "//" + window.location.hostname + "/" + window.location.pathname.split("/")[1] + "/dataDonutMainPage.php?" + window.location.search.substr(1),
