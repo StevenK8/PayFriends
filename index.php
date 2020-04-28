@@ -852,7 +852,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                                         <th> Nom d\'utilisateur </th>
                                         <th> Somme totale </th>
                                         <th> Statut </th>
-                                        <th> Date </th>
+                                        <th> Dernière dépense </th>
                                       </tr>
                                     </thead>
                                     <tbody>';
