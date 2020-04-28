@@ -17,37 +17,11 @@ header('Content-Type: application/json');
 // Include config file
 require_once "config.php";
 
-if(isset($_GET["id"])){
-    $sql = "SELECT ide,idu FROM members WHERE ide = ? AND idu = ?";
-
-    if($stmt = mysqli_prepare($db, $sql)){
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "ii", intval($_GET["id"]), $_SESSION["id"]);
-
-        // Attempt to execute the prepared statement
-        if(mysqli_stmt_execute($stmt)){
-            // Store result
-            mysqli_stmt_store_result($stmt);
-
-            // Check si l'user est membre de l'evenement
-            if(mysqli_stmt_num_rows($stmt) != 1){
-            $_GET["id"] = "";
-            mysqli_stmt_close($stmt);
-            header("location: index.php");
-            }
-        }
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-}else {
-    header("location: index.php");
-}
-
-$sql = "SELECT username,DATE_FORMAT(d.date, '%b %Y', 'fr-FR') as date,SUM(d.prix) as prix FROM users u, depenses d WHERE u.id like d.idu and d.ide like ? GROUP BY username,DATE_FORMAT(`date`, '%M') ORDER BY date asc";
+$sql = "SELECT SUM(prix) as prix ,title FROM depenses d,events e,members m WHERE d.ide like e.id and e.id like m.ide and d.idu like m.idu and m.idu like ? GROUP BY e.id ORDER BY prix desc";
                           
 if($stmt = mysqli_prepare($db, $sql)){
     // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($stmt, "i", $_GET["id"]);
+    mysqli_stmt_bind_param($stmt, "i", $_SESSION["id"]);
 
     // Attempt to execute the prepared statement
     if(mysqli_stmt_execute($stmt)){
