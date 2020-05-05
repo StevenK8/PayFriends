@@ -17,7 +17,7 @@ header('Content-Type: application/json');
 // Include config file
 require_once "config.php";
 
-$sql = "SELECT SUM(prix) as prix ,title FROM depenses d,events e,members m WHERE d.ide like e.id and e.id like m.ide and m.idu like ? GROUP BY e.id ORDER BY prix desc";
+$sql = "SELECT SUM(prix) as prix ,title FROM depenses d,events e,members m WHERE d.ide like e.id and e.id like m.ide and d.idu like m.idu and m.idu like ? GROUP BY e.id ORDER BY prix desc";
                           
 if($stmt = mysqli_prepare($db, $sql)){
     // Bind variables to the prepared statement as parameters
