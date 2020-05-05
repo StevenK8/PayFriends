@@ -266,7 +266,7 @@ function getId($db, $token){
                     while (mysqli_stmt_fetch($stmt)) {
                       $i++;
                       echo '                
-                      <a name="notification'.$i.'" class="dropdown-item preview-item" href="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenNotification.'">
+                      <a name="notification'.$i.'" class="dropdown-item preview-item" href="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'?redirect='.$tokenEvent.'">
                         <div class="preview-thumbnail">
                           <div class="preview-icon bg-success">
                             <i class="mdi mdi-calendar"></i>

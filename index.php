@@ -442,7 +442,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     while (mysqli_stmt_fetch($stmt)) {
                       $i++;
                       echo '                
-                      <a name="notification'.$i.'" class="dropdown-item preview-item" href="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenNotification.'">
+                      <a href="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'?redirect='.$tokenNotification.'" name="notification'.$i.'" class="dropdown-item preview-item" >
                         <div class="preview-thumbnail">
                           <div class="preview-icon bg-success">
                             <i class="mdi mdi-calendar"></i>
@@ -1083,7 +1083,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     </form>
 
                    <div class="input-group">
-                   <input type="text" id="tokenURL" class="form-control" value="https://stevenkerautret.com/PayFriends/index.php?redirect='.$tokenEvent.'">
+                   <input type="text" id="tokenURL" class="form-control" value="'.(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'?redirect='.$tokenEvent.'" >
                    <div class="input-group-append">
                      <button class="btn btn-sm btn-gradient-info" onclick="copy()" type="button">Copier</button>
                    </div>
@@ -1144,6 +1144,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/add-depense.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <!-- End custom js for this page -->
 </body>
 
