@@ -271,7 +271,7 @@
                   if (usernames[k] == data[i].username) {
                     prix[k].push(data[i].prix); // On ajoute sa donnée
                   } else if(data[i].date != moisdoublons[k]) {
-                    prix[k].push("0");
+                    prix[k].push("");
                   }
                 }
 
