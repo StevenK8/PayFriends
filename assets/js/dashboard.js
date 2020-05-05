@@ -261,7 +261,6 @@
                 prix[i] = [];
               }
               usernames = usernames.filter(onlyUnique);
-              var moisdoublons = mois;
               mois = mois.filter(onlyUnique);
 
               for (var m in mois){
