@@ -290,28 +290,6 @@
                 }
               }
 
-
-              /*for (var i in data) { // Pour chaque donnée (mois - username - prix)
-                 for (var k in usernames) { // Pour chaque username distinct
-                  if (usernames[k] == data[i].username) {
-                    prix[k].push(data[i].prix); // On ajoute sa donnée
-                  }else if(data[i].date != moisdoublons[k]) {
-                    prix[k].push("");
-                  }
-                }
-                j++;
-                if (j > gradientStroke.length) {
-                  randStroke = ctx.createLinearGradient(0, 0, 0, randomNumber(50, 300));
-                  color1 = colors[randomNumber(0, colors.length - 1)];
-                  color2 = colors[randomNumber(0, colors.length - 1)];
-                  randStroke.addColorStop(0, color1);
-                  randStroke.addColorStop(1, color2);
-
-                  gradientLegend.push("linear-gradient(to right, " + color1 + ", " + color2);
-                  gradientStroke.push(randStroke);
-                }
-              }*/
-
               for (u in usernames) {
                 datasets[u] = {
                   label: usernames[u],
