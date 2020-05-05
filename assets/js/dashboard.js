@@ -265,14 +265,16 @@
               mois = mois.filter(onlyUnique);
 
 
+
               for (var i in data) { // Pour chaque donnée (mois - username - prix)
-                for (var k in usernames) { // Pour chaque username distinct
+                 for (var k in usernames) { // Pour chaque username distinct
                   if (usernames[k] == data[i].username) {
                     prix[k].push(data[i].prix); // On ajoute sa donnée
-                  } else if(data[i].date!=moisdoublons[k]) {
-                    prix[k].push("");
-                   }
+                  } else if(data[i].date != moisdoublons[k]) {
+                    prix[k].push("0");
+                  }
                 }
+
                 j++;
                 if (j > gradientStroke.length) {
                   randStroke = ctx.createLinearGradient(0, 0, 0, randomNumber(50, 300));
