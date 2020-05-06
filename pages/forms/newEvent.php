@@ -274,7 +274,7 @@ function getId($db, $token){
                         </div>
                         <div class="preview-item-content d-flex align-items-start flex-column justify-content-center">
                           <h6 class="preview-subject font-weight-normal mb-1">'.$titleNotification.'</h6>
-                          <p class="text-gray ellipsis mb-0"> Vous avez été invité à cet événement </p>
+                          <p class="text-gray ellipsis mb-0"> Vous avez été invité</p>
                         </div>
                       </a>
                       <div class="dropdown-divider"></div>';
