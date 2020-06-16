@@ -370,7 +370,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <div class="form-check form-check-info">
                 <label class="form-check-label">
                   <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2" value="">
-                  Sélectionner certains membres <i class="input-helper"></i></label>
+                  Seulement moi <i class="input-helper"></i></label>
               </div>
             </div>
         </div>
