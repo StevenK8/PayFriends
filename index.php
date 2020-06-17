@@ -815,9 +815,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
               <div class="card">
                 <div class="card-body">
                   <div class="clearfix">
-                    <h4 class="card-title float-left">Statistiques des dépenses</h4>
-                    <div id="visit-sale-chart-legend"
-                      class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                    <h4 id="statsTitle" class="card-title float-left">Statistiques des dépenses</h4>
+                    <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right">
+                    </div>
+                    <h1 class="ml6">
+                      <span class="text-wrapper">
+                        <span class="letters"></span>
+                      </span>
+                    </h1>
+
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
                   </div>
                   <canvas id="visit-sale-chart" class="mt-4"></canvas>
 

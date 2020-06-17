@@ -483,7 +483,8 @@
         });
       });
     } else { // Si la donnée renvoyée est trop grande (page login au lieu d'un payload json)
-      $("#visit-sale-chart-legend").html("<center><h5>Pas de données.</h5></center>");
+      $(".letters").text("PayFriends");
+      $("#statsTitle").text("");
 
       $(document).ready(function () {
         $.ajax({
@@ -595,5 +596,27 @@
       });
     }
   });
+
+  window.addEventListener('load', function () {
+        // Wrap every letter in a span
+  var textWrapper = document.querySelector('.ml6 .letters');
+  textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+  anime.timeline({loop: true})
+    .add({
+      targets: '.ml6 .letter',
+      translateY: ["1.1em", 0],
+      translateZ: 0,
+      duration: 2000,
+      delay: (el, i) => 50 * i
+    }).add({
+      targets: '.ml6',
+      opacity: 0,
+      duration: 1000,
+      easing: "easeOutExpo",
+      delay: 1000
+    });
+  })
+
 
 })(jQuery);
