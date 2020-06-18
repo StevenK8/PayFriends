@@ -813,7 +813,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
           <div class="row">
             <div class="col-md-7 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="purpleCard">
                   <div class="clearfix">
                     <h4 id="statsTitle" class="card-title float-left">Statistiques des dépenses</h4>
                     <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right">

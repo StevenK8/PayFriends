@@ -485,6 +485,7 @@
     } else { // Si la donnée renvoyée est trop grande (page login au lieu d'un payload json)
       $(".letters").text("PayFriends");
       $("#statsTitle").text("");
+      $("#purpleCard").css("background", "linear-gradient(0deg, rgba(154,85,255,1) 0%, rgba(255,255,255,0.46262254901960786) 70%)");
 
       $(document).ready(function () {
         $.ajax({
