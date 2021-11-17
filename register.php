@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     # Verify captcha
     $post_data = http_build_query(
       array(
-          'secret' => "secret",
+          'secret' => "",
           'response' => $_POST['g-recaptcha-response'],
           'remoteip' => $_SERVER['REMOTE_ADDR']
       )
